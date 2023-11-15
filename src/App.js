@@ -1,22 +1,22 @@
 //--------------REACT--------------//
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import React from "react";
+import { Route, Routes } from "react-router-dom";
 
 //--------------COMPONENTS--------------//
-import { PwGenPage } from './Pages/PwGenPage';
+import { PwGenPage } from "./Pages/PwGenPage";
 
-import { PwBookPage } from './Pages/PwBookPage';
-import { PwBookPersonalPage } from './Pages/PwBookPersonalPage';
-import { PwBookSharedPage } from './Pages/PwBookSharedPage';
+import { PwBookPage } from "./Pages/PwBookPage";
+import { PwBookPersonalPage } from "./Pages/PwBookPersonalPage";
+import { PwBookSharedPage } from "./Pages/PwBookSharedPage";
 
-import { ProfilePage } from './Pages/ProfilePage';
-import { OnboardingPage } from './Pages/OnboardingPage';
-import { ForgotPwPage } from './Pages/ForgotPwPage';
-import { SignUpPage } from './Pages/SignUpPage';
-import { ErrorPage } from './Pages/ErrorPage';
+import { ProfilePage } from "./Pages/ProfilePage";
+import { OnboardingPage } from "./Pages/OnboardingPage";
+import { ForgotPwPage } from "./Pages/ForgotPwPage";
+import { SignUpPage } from "./Pages/SignUpPage";
+import { ErrorPage } from "./Pages/ErrorPage";
 
 //--------------STYLING--------------//
-import './App.css';
+import "./App.css";
 
 export default function App() {
   return (
@@ -31,7 +31,7 @@ export default function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/onboarding" element={<OnboardingPage />} />
         <Route path="/forgotpassword" element={<ForgotPwPage />} />
-        <Route path="/singup" element={<SignUpPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </>
