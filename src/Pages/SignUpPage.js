@@ -4,7 +4,7 @@ import backArrowImage from "../Images/icon-back.png";
 import logoImage from "../Images/logo-tagline.png";
 
 export const SignUpPage = () => {
-  const [user, setUser] = useState({ username: "", email: "", password: "" });
+  const [user, setUser] = useState({ email: "", password: "" });
   const navigate = useNavigate();
 
   const handleChange = (ev) => {
@@ -31,7 +31,7 @@ export const SignUpPage = () => {
     >
       <div className="relative flex flex-col justify-start p-8 pt-20 min-w-[30%] rounded-md">
         <button
-          className="absolute top-4 left-4 z-100 w-8 h-8"
+          className="absolute top-4 left-4 z-100 w-20 h-20"
           onClick={() => navigate("/onboarding")}
         >
           <img

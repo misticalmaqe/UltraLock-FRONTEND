@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import logoImage from "../Images/logo-tagline.png";
 
 export const OnboardingPage = () => {
@@ -19,16 +19,6 @@ export const OnboardingPage = () => {
     // Your login logic here
     // For now, navigate to "/passwordbook"
     navigate("/passwordbook");
-  };
-
-  const handleNewUser = () => {
-    // Navigate to "/signup" when "NEW USER" button is clicked
-    navigate("/signup");
-  };
-
-  const handleSignUp = () => {
-    // Perform Auth here
-    console.log("User signed up:", user);
   };
 
   const handleForgotPassword = () => {
@@ -91,13 +81,14 @@ export const OnboardingPage = () => {
             />
           </div>
           <div className="flex justify-center">
-            <input
-              type="button"
-              onClick={handleSignUp}
-              value="SIGN UP"
+            {/* Change the button to a Link component */}
+            <Link
+              to="/signup"
               className="py-2 px-4 rounded-md cursor-pointer mt-2"
               style={{ backgroundColor: "#427D9D", color: "#ffffff" }}
-            />
+            >
+              SIGN UP
+            </Link>
           </div>
           <div className="flex justify-center">
             <input
