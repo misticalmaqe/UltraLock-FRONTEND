@@ -25,7 +25,10 @@ export const SignUpPage = () => {
   };
 
   return (
-    <div className="flex flex-row justify-center h-fullscreen bg-background">
+    <div
+      className="flex flex-col items-center justify-center min-h-screen bg-fill-bg"
+      style={{ backgroundColor: "#DDF2FD", margin: 0, padding: 0 }}
+    >
       <div className="relative flex flex-col justify-start p-8 pt-20 min-w-[30%] rounded-md">
         <button
           className="absolute top-4 left-4 z-100 w-20 h-20"
@@ -55,7 +58,7 @@ export const SignUpPage = () => {
               value={user.email}
               autoComplete="off"
               placeholder=" Insert your email address"
-              className="w-full h-[2rem] lg:h-[2.5rem] rounded-md border border-slate-400 bg-white/5 text-txtcolor-secondary shadow-sm ring-1 ring-inset ring-white/10 focus:ring-pink-500 text-[1rem] mb-[1rem] "
+              className="w-full h-[2rem] lg:h-[2.5rem] rounded-md border border-slate-400 bg-white text-txtcolor-secondary shadow-sm ring-1 ring-inset ring-white/10 focus:ring-pink-500 text-[1rem] mb-[1rem] "
             />
           </div>
           <div className="flex flex-col mb-4">
@@ -69,7 +72,7 @@ export const SignUpPage = () => {
               value={user.password}
               autoComplete="off"
               placeholder=" Insert your password"
-              className="w-full h-[2rem] lg:h-[2.5rem] rounded-md border border-slate-400 bg-white/5 text-txtcolor-secondary shadow-sm ring-1 ring-inset ring-white/10 focus:ring-pink-500 text-[1rem] "
+              className="w-full h-[2rem] lg:h-[2.5rem] rounded-md border border-slate-400 bg-white text-txtcolor-secondary shadow-sm ring-1 ring-inset ring-white/10 focus:ring-pink-500 text-[1rem] "
             />
           </div>
           <div className="flex justify-center">
@@ -77,7 +80,7 @@ export const SignUpPage = () => {
               type="button"
               onClick={handleSignUp}
               value="SIGN UP"
-              style={{ backgroundColor: "#427D9D", color: "#ffffff" }}
+              style={{ backgroundColor: "#427D9D", color: "#DDF2FD" }}
               className="py-2 px-4 rounded-md cursor-pointer"
             />
           </div>

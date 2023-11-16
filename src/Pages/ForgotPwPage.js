@@ -56,7 +56,7 @@ export const ForgotPwPage = () => {
               type="button"
               onClick={handleSendResetLink}
               className="py-2 px-4 rounded-md bg-blue-500 text-white cursor-pointer"
-              style={{ backgroundColor: "#427D9D" }}
+              style={{ backgroundColor: "#427D9D", color: "#DDF2FD" }}
             >
               Reset Password
             </button>
