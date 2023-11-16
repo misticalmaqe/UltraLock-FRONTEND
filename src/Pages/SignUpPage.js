@@ -25,10 +25,7 @@ export const SignUpPage = () => {
   };
 
   return (
-    <div
-      className="flex flex-row justify-center h-[100vh] bg-fill-bg"
-      style={{ backgroundColor: "#DDF2FD" }}
-    >
+    <div className="flex flex-row justify-center h-fullscreen bg-background">
       <div className="relative flex flex-col justify-start p-8 pt-20 min-w-[30%] rounded-md">
         <button
           className="absolute top-4 left-4 z-100 w-20 h-20"
