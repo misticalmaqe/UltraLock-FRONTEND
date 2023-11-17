@@ -28,8 +28,8 @@ export const OnboardingPage = () => {
 
   return (
     <div
-      className="flex flex-col items-center justify-center min-h-screen bg-fill-bg"
-      style={{ backgroundColor: "#DDF2FD", margin: 0, padding: 0 }}
+      className="flex flex-col items-center justify-center bg-background h-screen"
+      style={{ margin: 0, padding: 0 }}
     >
       <div className="relative flex flex-col items-center justify-start p-8 pt-20 min-w-[30%] rounded-md">
         <div className="flex flex-row justify-center pb-4 lg:pb-6">

@@ -26,7 +26,7 @@ export const SignUpPage = () => {
 
   return (
     <div
-      className="flex flex-col items-center justify-center min-h-screen bg-fill-bg"
+      className="flex flex-col items-center justify-center bg-background h-screen"
       style={{ backgroundColor: "#DDF2FD", margin: 0, padding: 0 }}
     >
       <div className="relative flex flex-col justify-start p-8 pt-20 min-w-[30%] rounded-md">
