@@ -1,8 +1,8 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { Navbar } from "../Components/NavBar";
-import personal from "../Images/icon-personal.png";
-import share from "../Images/icon-shared.png";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Navbar } from '../Components/NavBar';
+import personal from '../Images/icon-personal.png';
+import share from '../Images/icon-shared.png';
 
 export function PwBookPage() {
   const navigate = useNavigate();
