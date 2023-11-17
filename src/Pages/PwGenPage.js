@@ -14,7 +14,7 @@ export function PwGenPage() {
   const [includeSpecialChars, setIncludeSpecialChars] = useState(true);
   const [includeNumbers, setIncludeNumbers] = useState(true);
   const [passwordStrength, setPasswordStrength] = useState("");
-  const [crackTime, setCrackTime] = useState("");
+  const [crackTime, setCrackTime] = useState(null); // Initialize to null
   const [showRefreshButton, setShowRefreshButton] = useState(false);
 
   // Calculate entropy based on the selected password length
@@ -40,27 +40,41 @@ export function PwGenPage() {
   const calculateStrength = useCallback(
     (length) => {
       let strength = "";
-      let timeToCrack = "";
+      let timeToCrack = 0; // Initialize to 0 for the default case
 
-      const entropy = calculateEntropy(length);
+      if (
+        includeUppercase ||
+        includeLowercase ||
+        includeSpecialChars ||
+        includeNumbers
+      ) {
+        const entropy = calculateEntropy(length);
 
-      // Password strength categories based on entropy
-      if (entropy <= 35) {
-        strength = "Weak";
-        timeToCrack = Math.round(0.5 * 2 ** entropy);
-      } else if (entropy <= 59) {
-        strength = "Fair";
-        timeToCrack = Math.round(0.5 * 2 ** entropy);
-      } else if (entropy <= 119) {
-        strength = "Good";
-        timeToCrack = Math.round(0.5 * 2 ** entropy);
-      } else if (entropy > 120) {
-        strength = "Excellent";
-        timeToCrack = Math.round(0.5 * 2 ** entropy);
+        // Password strength categories based on entropy
+        if (entropy <= 35) {
+          strength = "Weak";
+          timeToCrack = Math.round(0.5 * 2 ** entropy);
+        } else if (entropy <= 59) {
+          strength = "Fair";
+          timeToCrack = Math.round(0.5 * 2 ** entropy);
+        } else if (entropy <= 119) {
+          strength = "Good";
+          timeToCrack = Math.round(0.5 * 2 ** entropy);
+        } else if (entropy > 120) {
+          strength = "Excellent";
+          timeToCrack = Math.round(0.5 * 2 ** entropy);
+        }
       }
+
       return [strength, timeToCrack];
     },
-    [calculateEntropy]
+    [
+      calculateEntropy,
+      includeUppercase,
+      includeLowercase,
+      includeSpecialChars,
+      includeNumbers,
+    ]
   );
 
   // Generate a random password based on selected options
@@ -201,13 +215,17 @@ export function PwGenPage() {
             </div>
             {/* Display the estimated time to crack the password */}
             <p className="mb-2 text-center max-w-full overflow-x-auto">
-              Estimated Time to Crack:{" "}
-              {isNaN(crackTime)
-                ? "Infinity"
-                : crackTime % 1 === 0
-                ? convertSecondsToYears(crackTime).toFixed(0)
-                : convertSecondsToYears(crackTime).toFixed(2)}{" "}
-              years
+              {crackTime !== null ? (
+                <>
+                  Estimated Time to Crack:{" "}
+                  {isNaN(crackTime)
+                    ? "Infinity"
+                    : crackTime % 1 === 0
+                    ? convertSecondsToYears(crackTime).toFixed(0)
+                    : convertSecondsToYears(crackTime).toFixed(2)}{" "}
+                  years
+                </>
+              ) : null}
             </p>
             {/* Slider to adjust the password length */}
             <label className="mt-4 flex items-center justify-center">

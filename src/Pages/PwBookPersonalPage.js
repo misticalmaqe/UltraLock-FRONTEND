@@ -11,6 +11,15 @@ export function PwBookPersonalPage() {
     <div className="flex flex-col items-center justify-between min-h-screen bg-background">
       <Header toggle={personalShared} />
       <Navbar />
+
+      {/* Search bar */}
+      <div className="flex items-center justify-center mt-4">
+        <input
+          type="text"
+          placeholder="Search..."
+          className="p-2 border rounded-md"
+        />
+      </div>
     </div>
   );
 }
