@@ -15,9 +15,7 @@ export function PwBookPersonalPage() {
           type="text"
           placeholder="Search..."
           className="p-2 border rounded-md"
-          // You can add additional styles if needed
         />
-        {/* You can add a search button or any other search-related components here */}
       </div>
     </div>
   );
