@@ -1,14 +1,12 @@
-//--------------REACT--------------//
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 
 //--------------COMPONENTS--------------//
-import { PwGenPage } from "./Pages/PwGenPage";
 
+import { PwGenPage } from "./Pages/PwGenPage";
 import { PwBookPage } from "./Pages/PwBookPage";
 import { PwBookPersonalPage } from "./Pages/PwBookPersonalPage";
 import { PwBookSharedPage } from "./Pages/PwBookSharedPage";
-
 import { ProfilePage } from "./Pages/ProfilePage";
 import { OnboardingPage } from "./Pages/OnboardingPage";
 import { ForgotPwPage } from "./Pages/ForgotPwPage";

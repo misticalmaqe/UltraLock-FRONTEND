@@ -1,9 +1,16 @@
-// import backArrowImage from "../Images/icon-back.png";
-// import addIconImage from "../Images/icon-add.png";
+// PwBookPersonalPage.js
+import React from "react";
+import { Navbar } from "../Components/NavBar";
+import Header from "../Components/Header";
+
 export function PwBookPersonalPage() {
   return (
-    <>
-      <h1>Password Book Page (Personal)</h1>
-    </>
+    <div
+      className="flex flex-col items-center justify-between min-h-screen bg-fill-bg"
+      style={{ backgroundColor: "#DDF2FD", margin: 0, padding: 0 }}
+    >
+      <Header />
+      <Navbar />
+    </div>
   );
 }

@@ -4,12 +4,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "#DDF2FD", // background and text on buttons
-        window: "#9BBEC8", // modal pages
-        text: "#164863", // Text
-        accent: "#427D9D", // background color for buttons
+        background: "#DDF2FD",
+        window: "#9BBEC8",
+        text: "#164863",
+        accent: "#427D9D",
       },
     },
   },
-  plugins: [require("daisyui")],
+  plugins: [],
 };
