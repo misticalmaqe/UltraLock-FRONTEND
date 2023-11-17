@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Navbar } from "../Components/NavBar";
+import Checkbox from "../Components/Checkbox";
 import logoImage from "../Images/logo-01.png";
 import refreshIcon from "../Images/icon-refresh.png";
 import copyIcon from "../Images/icon-copy.png";
 
 export function PwGenPage() {
+  // State variables
   const [generatedPassword, setGeneratedPassword] = useState("");
   const [passwordLength, setPasswordLength] = useState(10);
   const [includeUppercase, setIncludeUppercase] = useState(true);
@@ -15,11 +17,14 @@ export function PwGenPage() {
   const [crackTime, setCrackTime] = useState("");
   const [showRefreshButton, setShowRefreshButton] = useState(false);
 
+  // Calculate entropy based on the selected password length
   const calculateEntropy = useCallback(() => {
+    // The formula for entropy is log2(number of possible combinations)
     const entropy = Math.log2(26 ** passwordLength);
     return entropy;
   }, [passwordLength]);
 
+  // Convert seconds to years for better readability
   const convertSecondsToYears = (seconds) => {
     const secondsInMinute = 60;
     const minutesInHour = 60;
@@ -31,6 +36,7 @@ export function PwGenPage() {
     );
   };
 
+  // Calculate password strength and estimated time to crack
   const calculateStrength = useCallback(
     (length) => {
       let strength = "";
@@ -38,6 +44,7 @@ export function PwGenPage() {
 
       const entropy = calculateEntropy(length);
 
+      // Password strength categories based on entropy
       if (entropy <= 35) {
         strength = "Weak";
         timeToCrack = Math.round(0.5 * 2 ** entropy);
@@ -56,6 +63,7 @@ export function PwGenPage() {
     [calculateEntropy]
   );
 
+  // Generate a random password based on selected options
   const generatePassword = useCallback(() => {
     const [strength, timeToCrack] = calculateStrength(passwordLength);
     setPasswordStrength(strength);
@@ -89,6 +97,7 @@ export function PwGenPage() {
     setShowRefreshButton,
   ]);
 
+  // Determine the background color of the strength indicator based on password strength
   const calculateStrengthColor = (strength) => {
     switch (strength) {
       case "Weak":
@@ -104,6 +113,7 @@ export function PwGenPage() {
     }
   };
 
+  // Get the character set based on selected options
   const getCharacterSet = (upper, lower, special, numbers) => {
     const charSets = [];
     if (upper) charSets.push("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
@@ -114,10 +124,12 @@ export function PwGenPage() {
     return charSets.join("");
   };
 
+  // Copy the generated password to the clipboard
   const handleCopyPassword = () => {
     navigator.clipboard.writeText(generatedPassword);
   };
 
+  // Initial password generation on component mount
   useEffect(() => {
     generatePassword();
   }, [
@@ -129,6 +141,7 @@ export function PwGenPage() {
     generatePassword,
   ]);
 
+  // Component rendering
   return (
     <div className="flex flex-col items-center justify-center bg-background h-screen">
       <div className="w-40 h-40 mb-8 mt-4">
@@ -147,9 +160,11 @@ export function PwGenPage() {
             password generator, ensuring enhanced online security.
           </h1>
           <div className="w-full">
+            {/* Display the generated password */}
             <p className="font-mono text-base mb-2 text-center max-w-full overflow-x-auto">
               {generatedPassword}
               {showRefreshButton && (
+                // Allow refreshing the password
                 <span
                   className="cursor-pointer text-blue-500 ml-2"
                   onClick={generatePassword}
@@ -162,6 +177,7 @@ export function PwGenPage() {
                 </span>
               )}
               {showRefreshButton && (
+                // Allow copying the password to clipboard
                 <span
                   className="cursor-pointer text-blue-500 ml-2"
                   onClick={handleCopyPassword}
@@ -174,6 +190,7 @@ export function PwGenPage() {
                 </span>
               )}
             </p>
+            {/* Display the password strength */}
             <div
               className={`mt-2 p-2 rounded-md ${calculateStrengthColor(
                 passwordStrength
@@ -182,6 +199,7 @@ export function PwGenPage() {
             >
               The password strength is {passwordStrength}
             </div>
+            {/* Display the estimated time to crack the password */}
             <p className="mb-2 text-center max-w-full overflow-x-auto">
               Estimated Time to Crack:{" "}
               {isNaN(crackTime)
@@ -191,6 +209,7 @@ export function PwGenPage() {
                 : convertSecondsToYears(crackTime).toFixed(2)}{" "}
               years
             </p>
+            {/* Slider to adjust the password length */}
             <label className="mt-4 flex items-center justify-center">
               Password Length:
               <input
@@ -204,39 +223,28 @@ export function PwGenPage() {
               {passwordLength}
             </label>
           </div>
+          {/* Checkboxes to include/exclude character sets */}
           <div className="mt-4 flex flex-wrap items-center justify-center">
-            <label className="mr-4">
-              <input
-                type="checkbox"
-                checked={includeUppercase}
-                onChange={() => setIncludeUppercase(!includeUppercase)}
-              />
-              Uppercase
-            </label>
-            <label className="mr-4">
-              <input
-                type="checkbox"
-                checked={includeLowercase}
-                onChange={() => setIncludeLowercase(!includeLowercase)}
-              />
-              Lowercase
-            </label>
-            <label className="mr-4">
-              <input
-                type="checkbox"
-                checked={includeSpecialChars}
-                onChange={() => setIncludeSpecialChars(!includeSpecialChars)}
-              />
-              Special Characters
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                checked={includeNumbers}
-                onChange={() => setIncludeNumbers(!includeNumbers)}
-              />
-              Numbers
-            </label>
+            <Checkbox
+              label="Uppercase"
+              checked={includeUppercase}
+              onChange={() => setIncludeUppercase(!includeUppercase)}
+            />
+            <Checkbox
+              label="Lowercase"
+              checked={includeLowercase}
+              onChange={() => setIncludeLowercase(!includeLowercase)}
+            />
+            <Checkbox
+              label="Special Characters"
+              checked={includeSpecialChars}
+              onChange={() => setIncludeSpecialChars(!includeSpecialChars)}
+            />
+            <Checkbox
+              label="Numbers"
+              checked={includeNumbers}
+              onChange={() => setIncludeNumbers(!includeNumbers)}
+            />
           </div>
         </div>
       </div>

@@ -54,7 +54,7 @@ export const OnboardingPage = () => {
               value={user.email}
               autoComplete="off"
               placeholder=" Insert your email address"
-              className="w-full h-[2rem] lg:h-[2.5rem] rounded-md border border-slate-400 bg-white/5 text-txtcolor-secondary shadow-sm ring-1 ring-inset ring-white/10 focus:ring-indigo-500 text-[1rem] mb-[1rem] "
+              className="w-full h-[2rem] lg:h-[2.5rem] rounded-md border border-slate-400 bg-white text-txtcolor-secondary shadow-sm ring-1 ring-inset ring-white/10 focus:ring-indigo-500 text-[1rem] mb-[1rem] "
             />
           </div>
           <div className="flex flex-col mb-4">
@@ -68,7 +68,7 @@ export const OnboardingPage = () => {
               value={user.password}
               autoComplete="off"
               placeholder=" Insert your password"
-              className="w-full h-[2rem] lg:h-[2.5rem] rounded-md border border-slate-400 bg-white/5 text-txtcolor-secondary shadow-sm ring-1 ring-inset ring-white/10 focus:ring-indigo-500 text-[1rem] "
+              className="w-full h-[2rem] lg:h-[2.5rem] rounded-md border border-slate-400 bg-white text-txtcolor-secondary shadow-sm ring-1 ring-inset ring-white/10 focus:ring-indigo-500 text-[1rem] "
             />
           </div>
           <div className="flex justify-center">
