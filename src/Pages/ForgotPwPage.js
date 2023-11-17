@@ -19,10 +19,7 @@ export const ForgotPwPage = () => {
   };
 
   return (
-    <div
-      style={{ backgroundColor: "#DDF2FD" }}
-      className="flex flex-row justify-center h-screen"
-    >
+    <div className="flex flex-row justify-center bg-background h-screen">
       <div className="relative flex flex-col justify-start p-8 pt-20 min-w-[30%] rounded-md">
         <button
           className="absolute top-4 left-4 z-10 w-20 h-20"
