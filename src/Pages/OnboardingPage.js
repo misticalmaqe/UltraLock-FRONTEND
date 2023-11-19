@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import logoImage from '../Images/logo-tagline.png';
+import axios from 'axios';
+const DBPORT = process.env.REACT_APP_DB_PORT;
 
 export const OnboardingPage = () => {
   const [email, setEmail] = useState(null);
@@ -8,15 +10,45 @@ export const OnboardingPage = () => {
   const [authenticated, setAuthenticated] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogIn = () => {
-    // Your login logic here
-    // For now, navigate to "/passwordbook"
-    navigate('/passwordbook');
-  };
+  useEffect(() => {
+    const checkAuth = async () => {
+      const token = localStorage.getItem('token');
+      try {
+        if (token) {
+          const tokenAuth = 'Bearer ' + token;
+          const data = await axios.get(`${DBPORT}/user/jwtTest`, {
+            headers: {
+              Authorization: tokenAuth,
+            },
+          });
+          if (data.data.success) {
+            setAuthenticated(true);
+          }
+        }
+      } catch (err) {
+        localStorage.removeItem('token');
+      }
+    };
+    checkAuth();
+  }, []);
 
-  const handleForgotPassword = () => {
-    // Navigate to "//forgotpassword" when "FORGOT PASSWORD" button is clicked
-    navigate('/forgotpassword');
+  const handleLogIn = async (e) => {
+    e.preventDefault();
+
+    try {
+      const data = await axios.post(`${DBPORT}/user/jwtSignIn`, {
+        email,
+        password,
+      });
+      if (data.data.success) {
+        setAuthenticated(true);
+        localStorage.setItem('token', data.data.token);
+        navigate('/');
+      }
+    } catch (error) {
+      // Handle login failure
+      alert('Login failed. Please check your credentials.');
+    }
   };
 
   return (
@@ -54,7 +86,7 @@ export const OnboardingPage = () => {
           value="LOG IN"
           className="py-2 px-4 rounded-md cursor-pointer bg-accent text-background"
         />
-        <div className="flex justify-even mt-[30px]">
+        <div className="flex justify-between mt-[30px]">
           {/* Change the button to a Link component */}
           <Link
             to="/signup"
@@ -62,12 +94,12 @@ export const OnboardingPage = () => {
           >
             SIGN UP
           </Link>
-          <input
-            type="button"
-            onClick={handleForgotPassword}
-            value="FORGOT PASSWORD"
+          <Link
+            to="/forgotpassword"
             className="py-2 px-4 rounded-md cursor-pointer mt-2 bg-accent text-background w-full ml-[20px] text-center"
-          />
+          >
+            FORGOT PASSWORD
+          </Link>
         </div>
       </form>
     </div>
