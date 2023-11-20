@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import { Navbar } from '../Components/NavBar';
 import Checkbox from '../Components/Checkbox';
 import logoImage from '../Images/logo-01.png';
 import refreshIcon from '../Images/icon-refresh.png';
 import copyIcon from '../Images/icon-copy.png';
+import { UserContext } from '../provider/UserProvider';
 
 export function PwGenPage() {
   // State variables
@@ -16,6 +17,7 @@ export function PwGenPage() {
   const [passwordStrength, setPasswordStrength] = useState('');
   const [crackTime, setCrackTime] = useState(null); // Initialize to null
   const [showRefreshButton, setShowRefreshButton] = useState(false);
+  const { authenticated, setAuthenticated } = useContext(UserContext);
 
   // Calculate entropy based on the selected password length
   const calculateEntropy = useCallback(() => {

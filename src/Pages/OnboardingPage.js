@@ -1,13 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import logoImage from '../Images/logo-tagline.png';
 import axios from 'axios';
+import { UserContext } from '../provider/UserProvider';
 const DBPORT = process.env.REACT_APP_DB_PORT;
 
 export const OnboardingPage = () => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
-  const [authenticated, setAuthenticated] = useState(false);
+  const { authenticated, setAuthenticated } = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
