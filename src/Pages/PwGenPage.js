@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
+import { Navigate } from 'react-router-dom';
 import { Navbar } from '../Components/NavBar';
 import Checkbox from '../Components/Checkbox';
 import logoImage from '../Images/logo-01.png';
@@ -18,6 +19,7 @@ export function PwGenPage() {
   const [crackTime, setCrackTime] = useState(null); // Initialize to null
   const [showRefreshButton, setShowRefreshButton] = useState(false);
   const { authenticated, setAuthenticated } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   // Calculate entropy based on the selected password length
   const calculateEntropy = useCallback(() => {
@@ -158,108 +160,112 @@ export function PwGenPage() {
   ]);
 
   // Component rendering
-  return (
-    <div className="flex flex-col pt-[50px] items-center bg-background h-screen text-text">
-      <img className="w-40" src={logoImage} alt="UltraLock logo" />
-      <div className="flex flex-col items-center w-full">
-        <div className="w-full max-w-screen-md">
-          <h1 className="text-xl font-bold my-10 text-center">
-            Generate robust, secure passwords effortlessly with our free
-            password generator, ensuring enhanced online security.
-          </h1>
-          <div className="flex flex-col items-center justify-center">
-            {/* Display the generated password */}
-            <p className="font-mono text-[1.4rem] mb-[20px] text-center max-w-full overflow-x-auto">
-              {generatedPassword}
-              {showRefreshButton && (
-                // Allow refreshing the password
-                <span
-                  className="cursor-pointer text-blue-500 ml-2"
-                  onClick={generatePassword}
-                >
-                  <img
-                    src={refreshIcon}
-                    alt="refresh Button"
-                    className="w-7 inline-block"
-                  />
-                </span>
-              )}
-              {showRefreshButton && (
-                // Allow copying the password to clipboard
-                <span
-                  className="cursor-pointer text-blue-500 ml-2"
-                  onClick={handleCopyPassword}
-                >
-                  <img
-                    src={copyIcon}
-                    alt="copy Button"
-                    className="w-7 inline-block"
-                  />
-                </span>
-              )}
-            </p>
-            {/* Display the password strength */}
-            <h1
-              className={`my-[20px] p-2 rounded-md w-80 text-center ${calculateStrengthColor(
-                passwordStrength
-              )}`}
-            >
-              The password strength is {passwordStrength}
+  if (authenticated) {
+    return (
+      <div className="flex flex-col pt-[50px] items-center bg-background h-screen text-text">
+        <img className="w-40" src={logoImage} alt="UltraLock logo" />
+        <div className="flex flex-col items-center w-full">
+          <div className="w-full max-w-screen-md">
+            <h1 className="text-xl font-bold my-10 text-center">
+              Generate robust, secure passwords effortlessly with our free
+              password generator, ensuring enhanced online security.
             </h1>
-            {/* Display the estimated time to crack the password */}
-            <p className="mb-2 text-center max-w-full overflow-x-auto">
-              {crackTime !== null ? (
-                <>
-                  Estimated Time to Crack:{' '}
-                  {isNaN(crackTime)
-                    ? 'Infinity'
-                    : crackTime % 1 === 0
-                    ? convertSecondsToYears(crackTime).toFixed(0)
-                    : convertSecondsToYears(crackTime).toFixed(2)}{' '}
-                  years
-                </>
-              ) : null}
-            </p>
-            {/* Slider to adjust the password length */}
-            <label className="mt-4 flex items-center justify-center">
-              Password Length:
-              <input
-                type="range"
-                min="6"
-                max="30"
-                value={passwordLength}
-                onChange={(e) => setPasswordLength(parseInt(e.target.value))}
-                className="mx-2 max-w-full accent-accent"
+            <div className="flex flex-col items-center justify-center">
+              {/* Display the generated password */}
+              <p className="font-mono text-[1.4rem] mb-[20px] text-center max-w-full overflow-x-auto">
+                {generatedPassword}
+                {showRefreshButton && (
+                  // Allow refreshing the password
+                  <span
+                    className="cursor-pointer text-blue-500 ml-2"
+                    onClick={generatePassword}
+                  >
+                    <img
+                      src={refreshIcon}
+                      alt="refresh Button"
+                      className="w-7 inline-block"
+                    />
+                  </span>
+                )}
+                {showRefreshButton && (
+                  // Allow copying the password to clipboard
+                  <span
+                    className="cursor-pointer text-blue-500 ml-2"
+                    onClick={handleCopyPassword}
+                  >
+                    <img
+                      src={copyIcon}
+                      alt="copy Button"
+                      className="w-7 inline-block"
+                    />
+                  </span>
+                )}
+              </p>
+              {/* Display the password strength */}
+              <h1
+                className={`my-[20px] p-2 rounded-md w-80 text-center ${calculateStrengthColor(
+                  passwordStrength
+                )}`}
+              >
+                The password strength is {passwordStrength}
+              </h1>
+              {/* Display the estimated time to crack the password */}
+              <p className="mb-2 text-center max-w-full overflow-x-auto">
+                {crackTime !== null ? (
+                  <>
+                    Estimated Time to Crack:{' '}
+                    {isNaN(crackTime)
+                      ? 'Infinity'
+                      : crackTime % 1 === 0
+                      ? convertSecondsToYears(crackTime).toFixed(0)
+                      : convertSecondsToYears(crackTime).toFixed(2)}{' '}
+                    years
+                  </>
+                ) : null}
+              </p>
+              {/* Slider to adjust the password length */}
+              <label className="mt-4 flex items-center justify-center">
+                Password Length:
+                <input
+                  type="range"
+                  min="6"
+                  max="30"
+                  value={passwordLength}
+                  onChange={(e) => setPasswordLength(parseInt(e.target.value))}
+                  className="mx-2 max-w-full accent-accent"
+                />
+                {passwordLength}
+              </label>
+            </div>
+            {/* Checkboxes to include/exclude character sets */}
+            <div className="mt-5 flex flex-wrap justify-center">
+              <Checkbox
+                label="Lowercase"
+                checked={includeLowercase}
+                onChange={() => setIncludeLowercase(!includeLowercase)}
               />
-              {passwordLength}
-            </label>
-          </div>
-          {/* Checkboxes to include/exclude character sets */}
-          <div className="mt-5 flex flex-wrap justify-center">
-            <Checkbox
-              label="Lowercase"
-              checked={includeLowercase}
-              onChange={() => setIncludeLowercase(!includeLowercase)}
-            />
-            <Checkbox
-              label="Uppercase"
-              checked={includeUppercase}
-              onChange={() => setIncludeUppercase(!includeUppercase)}
-            />
-            <Checkbox
-              label="Numbers"
-              checked={includeNumbers}
-              onChange={() => setIncludeNumbers(!includeNumbers)}
-            />
-            <Checkbox
-              label="Special Characters"
-              checked={includeSpecialChars}
-              onChange={() => setIncludeSpecialChars(!includeSpecialChars)}
-            />
+              <Checkbox
+                label="Uppercase"
+                checked={includeUppercase}
+                onChange={() => setIncludeUppercase(!includeUppercase)}
+              />
+              <Checkbox
+                label="Numbers"
+                checked={includeNumbers}
+                onChange={() => setIncludeNumbers(!includeNumbers)}
+              />
+              <Checkbox
+                label="Special Characters"
+                checked={includeSpecialChars}
+                onChange={() => setIncludeSpecialChars(!includeSpecialChars)}
+              />
+            </div>
           </div>
         </div>
+        <Navbar />
       </div>
-      <Navbar />
-    </div>
-  );
+    );
+  } else {
+    return <Navigate to="/onboarding" />;
+  }
 }

@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
+import { UserContext } from '../provider/UserProvider';
 import axios from 'axios';
 import addIconImage from '../Images/icon-add.png';
 const DBPORT = process.env.REACT_APP_DB_PORT;
@@ -9,6 +10,11 @@ const PersonalForm = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { user } = useContext(UserContext);
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
 
   //send data to database
   const writeData = async () => {
@@ -22,12 +28,14 @@ const PersonalForm = () => {
         `${DBPORT}/groupaccount`,
         newGroupAccount
       );
-      //find a way to read data
+      const groupId = createdGroupData.data.groupAccount.id;
+      console.log(groupId);
       const newPwBookEntry = {
-        userId: 2,
+        userId: user.id,
         userName: username,
         email: email,
         password: password,
+        groupAccountId: groupId,
       };
       await axios.post(`${DBPORT}/pwbookentry`, newPwBookEntry);
 
@@ -36,7 +44,7 @@ const PersonalForm = () => {
       setEmail('');
       setPassword('');
 
-      document.getElementById('sighting-form').close();
+      document.getElementById('personal-form').close();
     } catch (err) {
       console.error(err);
     }
