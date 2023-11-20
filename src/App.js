@@ -12,15 +12,14 @@ import { OnboardingPage } from './Pages/OnboardingPage';
 import { ForgotPwPage } from './Pages/ForgotPwPage';
 import { SignUpPage } from './Pages/SignUpPage';
 import { ErrorPage } from './Pages/ErrorPage';
+import UserProvider from './provider/UserProvider';
 
 //--------------STYLING--------------//
 import './App.css';
 
-export const UserContext = React.createContext(null);
-
 export default function App() {
   return (
-    <>
+    <UserProvider>
       <Routes>
         <Route path="/" element={<PwGenPage />} />
         <Route path="/passwordbook">
@@ -34,6 +33,6 @@ export default function App() {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
-    </>
+    </UserProvider>
   );
 }

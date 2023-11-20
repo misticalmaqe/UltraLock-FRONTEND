@@ -12,21 +12,23 @@ const PersonalForm = () => {
 
   //send data to database
   const writeData = async () => {
-    const newPwBookEntry = {
-      userId: 2,
-      userName: username,
-      email: email,
-      password: password,
-    };
-
     const newGroupAccount = {
       groupName: groupName,
       privateShared: false,
     };
 
     try {
-      await axios.post(`${DBPORT}/groupaccount`, newGroupAccount);
-      // await axios.get(`${DBPORT}/groupaccount/${groupId}`);
+      const createdGroupData = await axios.post(
+        `${DBPORT}/groupaccount`,
+        newGroupAccount
+      );
+      //find a way to read data
+      const newPwBookEntry = {
+        userId: 2,
+        userName: username,
+        email: email,
+        password: password,
+      };
       await axios.post(`${DBPORT}/pwbookentry`, newPwBookEntry);
 
       setGroupName('');
