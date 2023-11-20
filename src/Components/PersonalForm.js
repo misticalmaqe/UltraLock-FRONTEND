@@ -55,9 +55,9 @@ const PersonalForm = () => {
             className="flex flex-col items-center justify-center p-[20px] text-center"
           >
             <div className="justify-left text-left flex flex-col">
-              <label className="mb-[5px]">Group Name :</label>
+              <label className="text-m font-bold mb-2">Group Name :</label>
               <input
-                className="input mb-[15px] w-[15em] justify-center rounded-md  bg-background px-2"
+                className="w-60 h-[2rem] lg:h-[2.5rem] rounded-md border-accent bg-white text-txtcolor-secondary shadow-sm ring-1 ring-inset ring-white/10 focus:ring-text pl-[5px] mb-[20px]"
                 type="text"
                 name="title"
                 value={groupName}
@@ -66,9 +66,9 @@ const PersonalForm = () => {
                   setGroupName(e.target.value);
                 }}
               />
-              <label className="mb-[5px]">Username :</label>
+              <label className="text-m font-bold mb-2">Username :</label>
               <input
-                className="input mb-[15px] w-[15em] justify-center rounded-md  bg-background px-2"
+                className="w-60 h-[2rem] lg:h-[2.5rem] rounded-md border-accent bg-white text-txtcolor-secondary shadow-sm ring-1 ring-inset ring-white/10 focus:ring-text pl-[5px] mb-[20px]"
                 type="text"
                 name="title"
                 value={username}
@@ -77,9 +77,9 @@ const PersonalForm = () => {
                   setUsername(e.target.value);
                 }}
               />
-              <label className="mb-[5px]">Email :</label>
+              <label className="text-m font-bold mb-2">Email :</label>
               <input
-                className="input mb-[15px] w-[15em] justify-center rounded-md  bg-background px-2"
+                className="w-60 h-[2rem] lg:h-[2.5rem] rounded-md border-accent bg-white text-txtcolor-secondary shadow-sm ring-1 ring-inset ring-white/10 focus:ring-text pl-[5px] mb-[20px]"
                 type="email"
                 name="title"
                 value={email}
@@ -88,9 +88,9 @@ const PersonalForm = () => {
                   setEmail(e.target.value);
                 }}
               />
-              <label className="mb-[5px]">Password :</label>
+              <label className="text-m font-bold mb-2">Password :</label>
               <input
-                className="input mb-[15px] w-[15em] justify-center rounded-md  bg-background text-text px-2"
+                className="w-60 h-[2rem] lg:h-[2.5rem] rounded-md border-accent bg-white text-txtcolor-secondary shadow-sm ring-1 ring-inset ring-white/10 focus:ring-text pl-[5px] mb-[20px]"
                 type="password"
                 name="title"
                 value={password}
@@ -100,7 +100,7 @@ const PersonalForm = () => {
                 }}
               />
               <button
-                className="bg-accent text-background rounded-full mt-[15px] p-[3px]"
+                className="py-2 px-4 rounded-md cursor-pointer bg-accent text-background mt-[20px]"
                 onClick={() => writeData()}
               >
                 Save

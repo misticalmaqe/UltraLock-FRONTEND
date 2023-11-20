@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import backArrowImage from "../Images/icon-back.png";
-import logoImage from "../Images/logo-tagline.png";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import backArrowImage from '../Images/icon-back.png';
+import logoImage from '../Images/logo-tagline.png';
 
 export const ForgotPwPage = () => {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const navigate = useNavigate();
 
   const handleChange = (ev) => {
@@ -14,52 +14,37 @@ export const ForgotPwPage = () => {
 
   const handleSendResetLink = () => {
     // Perform logic to send reset link
-    console.log("Reset link sent to:", email);
+    console.log('Reset link sent to:', email);
     // You can add logic to handle the reset link and navigate accordingly
   };
 
   return (
-    <div className="flex flex-row justify-center bg-background h-screen">
-      <div className="relative flex flex-col justify-start p-8 pt-20 min-w-[30%] rounded-md">
-        <button
-          className="absolute top-4 left-4 z-10 w-20 h-20"
-          onClick={() => navigate("/onboarding")}
-        >
-          <img
-            src={backArrowImage}
-            alt="Back Arrow"
-            className="w-full h-full"
-          />
-        </button>
-        <div className="relative flex flex-col items-center justify-start p-4">
-          <div className="flex flex-row justify-center pb-4 lg:pb-6">
-            <div className="w-80 h-80">
-              <img src={logoImage} alt="UltraLock logo" />
-            </div>
-          </div>
-          <div className="flex flex-col mb-4">
-            <label className="text-sm font-semibold mb-1">Email:</label>
-            <input
-              type="text"
-              name="email"
-              onChange={handleChange}
-              value={email}
-              placeholder=" Insert your email address"
-              className="w-full h-10 rounded-md border border-gray-300 px-3"
-            />
-          </div>
-          <div className="flex justify-center">
-            <button
-              type="button"
-              onClick={handleSendResetLink}
-              className="py-2 px-4 rounded-md bg-blue-500 text-white cursor-pointer"
-              style={{ backgroundColor: "#427D9D", color: "#DDF2FD" }}
-            >
-              Reset Password
-            </button>
-          </div>
-        </div>
+    <div className="flex flex-col pt-[100px] items-center bg-background h-screen text-text">
+      <img
+        className="w-20 cursor-pointer absolute top-5 left-10 z-10"
+        src={backArrowImage}
+        alt="Back Arrow"
+        onClick={() => navigate('/onboarding')}
+      />
+      <img className="w-80" src={logoImage} alt="UltraLock logo" />
+      <div className="flex flex-col mb-4">
+        <label className="text-m font-bold mb-2">Email:</label>
+        <input
+          className="w-80 h-[2rem] lg:h-[2.5rem] rounded-md border-accent bg-white text-text shadow-sm ring-1 ring-inset ring-white/10 focus:ring-text mb-[1rem] pl-[5px]"
+          type="text"
+          name="email"
+          onChange={handleChange}
+          value={email}
+          placeholder=" Insert your email address"
+        />
       </div>
+      <button
+        type="button"
+        onClick={handleSendResetLink}
+        className="w-60 py-2 px-4 rounded-md bg-accent text-background cursor-pointer"
+      >
+        Reset Password
+      </button>
     </div>
   );
 };
