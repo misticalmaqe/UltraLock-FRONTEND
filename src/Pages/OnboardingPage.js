@@ -1,106 +1,107 @@
-import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import logoImage from "../Images/logo-tagline.png";
+import { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import logoImage from '../Images/logo-tagline.png';
+import axios from 'axios';
+const DBPORT = process.env.REACT_APP_DB_PORT;
 
 export const OnboardingPage = () => {
-  const [user, setUser] = useState({ email: "", password: "" });
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [authenticated, setAuthenticated] = useState(false);
   const navigate = useNavigate();
 
-  const handleChange = (ev) => {
-    let name = ev.target.name;
-    let value = ev.target.value;
+  useEffect(() => {
+    const checkAuth = async () => {
+      const token = localStorage.getItem('token');
+      try {
+        if (token) {
+          const tokenAuth = 'Bearer ' + token;
+          const data = await axios.get(`${DBPORT}/user/jwtTest`, {
+            headers: {
+              Authorization: tokenAuth,
+            },
+          });
+          if (data.data.success) {
+            setAuthenticated(true);
+          }
+        }
+      } catch (err) {
+        localStorage.removeItem('token');
+      }
+    };
+    checkAuth();
+  }, []);
 
-    setUser((prevState) => {
-      return { ...prevState, [name]: value };
-    });
-  };
+  const handleLogIn = async (e) => {
+    e.preventDefault();
 
-  const handleLogIn = () => {
-    // Your login logic here
-    // For now, navigate to "/passwordbook"
-    navigate("/passwordbook");
-  };
-
-  const handleForgotPassword = () => {
-    // Navigate to "//forgotpassword" when "FORGOT PASSWORD" button is clicked
-    navigate("/forgotpassword");
+    try {
+      const data = await axios.post(`${DBPORT}/user/jwtSignIn`, {
+        email,
+        password,
+      });
+      if (data.data.success) {
+        setAuthenticated(true);
+        localStorage.setItem('token', data.data.token);
+        navigate('/');
+      }
+    } catch (error) {
+      // Handle login failure
+      alert('Login failed. Please check your credentials.');
+    }
   };
 
   return (
-    <div
-      className="flex flex-col items-center justify-center bg-background h-screen"
-      style={{ margin: 0, padding: 0 }}
-    >
-      <div className="relative flex flex-col items-center justify-start p-8 pt-20 min-w-[30%] rounded-md">
-        <div className="flex flex-row justify-center pb-4 lg:pb-6">
-          <div className="w-80 h-80">
-            <img
-              src={logoImage}
-              alt="UltraLock logo"
-              style={{ width: "100%", height: "100%" }}
-            />
-          </div>
+    <div className="flex flex-col pt-[100px] items-center bg-background h-screen text-text">
+      <img src={logoImage} alt="UltraLock logo" className="w-80 mb-[20px]" />
+      <form className="flex flex-col w-full max-w-md">
+        <div className="flex flex-col mb-10">
+          <label className="text-m font-bold mb-2">Email:</label>
+          <input
+            className="w-full h-[2rem] lg:h-[2.5rem] rounded-md border-accent bg-white text-text shadow-sm ring-1 ring-inset ring-white/10 focus:ring-text mb-[1rem] pl-[5px]"
+            type="text"
+            name="email"
+            value={email}
+            placeholder=" Insert your email address"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+            autoComplete="off"
+          />
+          <label className="text-m font-bold mb-2">Password:</label>
+          <input
+            className="w-full h-[2rem] lg:h-[2.5rem] rounded-md border-accent bg-white text-txtcolor-secondary shadow-sm ring-1 ring-inset ring-white/10 focus:ring-text pl-[5px]"
+            type="password"
+            name="password"
+            value={password}
+            placeholder=" Insert your password"
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+          />
         </div>
-
-        <form className="flex flex-col w-full max-w-md">
-          <div className="flex flex-col mb-4">
-            <label className="text-sm font-semibold lg:text-base leading-6 mb-1">
-              Email:
-            </label>
-            <input
-              type="text"
-              name="email"
-              onChange={handleChange}
-              value={user.email}
-              autoComplete="off"
-              placeholder=" Insert your email address"
-              className="w-full h-[2rem] lg:h-[2.5rem] rounded-md border border-slate-400 bg-white text-txtcolor-secondary shadow-sm ring-1 ring-inset ring-white/10 focus:ring-indigo-500 text-[1rem] mb-[1rem] "
-            />
-          </div>
-          <div className="flex flex-col mb-4">
-            <label className="text-sm font-semibold lg:text-base leading-6 mb-1">
-              Password:
-            </label>
-            <input
-              type="password"
-              name="password"
-              onChange={handleChange}
-              value={user.password}
-              autoComplete="off"
-              placeholder=" Insert your password"
-              className="w-full h-[2rem] lg:h-[2.5rem] rounded-md border border-slate-400 bg-white text-txtcolor-secondary shadow-sm ring-1 ring-inset ring-white/10 focus:ring-indigo-500 text-[1rem] "
-            />
-          </div>
-          <div className="flex justify-center">
-            <input
-              type="button"
-              onClick={handleLogIn}
-              value="LOG IN"
-              className="py-2 px-4 rounded-md cursor-pointer"
-              style={{ backgroundColor: "#427D9D", color: "#ffffff" }}
-            />
-          </div>
-          <div className="flex justify-center">
-            {/* Change the button to a Link component */}
-            <Link
-              to="/signup"
-              className="py-2 px-4 rounded-md cursor-pointer mt-2"
-              style={{ backgroundColor: "#427D9D", color: "#ffffff" }}
-            >
-              SIGN UP
-            </Link>
-          </div>
-          <div className="flex justify-center">
-            <input
-              type="button"
-              onClick={handleForgotPassword}
-              value="FORGOT PASSWORD"
-              className="py-2 px-4 rounded-md cursor-pointer mt-2"
-              style={{ backgroundColor: "#427D9D", color: "#ffffff" }}
-            />
-          </div>
-        </form>
-      </div>
+        <input
+          type="button"
+          onClick={handleLogIn}
+          value="LOG IN"
+          className="py-2 px-4 rounded-md cursor-pointer bg-accent text-background"
+        />
+        <div className="flex justify-between mt-[30px]">
+          {/* Change the button to a Link component */}
+          <Link
+            to="/signup"
+            className="py-2 px-4 rounded-md cursor-pointer mt-2 bg-accent text-background w-full mr-[20px] text-center"
+          >
+            SIGN UP
+          </Link>
+          <Link
+            to="/forgotpassword"
+            className="py-2 px-4 rounded-md cursor-pointer mt-2 bg-accent text-background w-full ml-[20px] text-center"
+          >
+            FORGOT PASSWORD
+          </Link>
+        </div>
+      </form>
     </div>
   );
 };
