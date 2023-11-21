@@ -101,6 +101,12 @@ const SharedForm = () => {
 
           try {
             await axios.post(`${DBPORT}/pwbookentry`, entry);
+            setGroupName('');
+            setUsername('');
+            setEmail('');
+            setPassword('');
+            setOtherUser('');
+            setOtherUsers([]);
           } catch (error) {
             console.error(
               `Error creating multiple pwbookentry for user ID ${userId}:`,

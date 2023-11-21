@@ -72,8 +72,6 @@ export function PwBookPersonalPage() {
   return (
     <div className="flex flex-col items-center min-h-screen bg-background pb-[170px]">
       <Header toggle={personalShared} />
-
-      {/* Search bar */}
       <input
         type="text"
         placeholder="Search..."
@@ -81,6 +79,7 @@ export function PwBookPersonalPage() {
       />
       <div className="max-w-screen m-4 grid justify-center gap-4 p-3 md:grid-cols-1 lg:grid-cols-3">
         {Array.isArray(groups) &&
+          Array.isArray(pwBooks) &&
           groups.map((groupItem) => (
             <div
               key={groupItem.id}
