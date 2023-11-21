@@ -1,25 +1,26 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react';
-import { Navigate } from 'react-router-dom';
-import { Navbar } from '../Components/NavBar';
-import Checkbox from '../Components/Checkbox';
-import logoImage from '../Images/logo-01.png';
-import refreshIcon from '../Images/icon-refresh.png';
-import copyIcon from '../Images/icon-copy.png';
-import { UserContext } from '../provider/UserProvider';
+import React, { useState, useEffect, useCallback, useContext } from "react";
+import { Navigate } from "react-router-dom";
+import { Navbar } from "../Components/NavBar";
+import Checkbox from "../Components/Checkbox";
+import logoImage from "../Images/logo-01.png";
+import refreshIcon from "../Images/icon-refresh.png";
+import copyIcon from "../Images/icon-copy.png";
+import { UserContext } from "../provider/UserProvider";
 
 export function PwGenPage() {
   // State variables
-  const [generatedPassword, setGeneratedPassword] = useState('');
+  const [generatedPassword, setGeneratedPassword] = useState("");
   const [passwordLength, setPasswordLength] = useState(10);
   const [includeUppercase, setIncludeUppercase] = useState(true);
   const [includeLowercase, setIncludeLowercase] = useState(true);
   const [includeSpecialChars, setIncludeSpecialChars] = useState(true);
   const [includeNumbers, setIncludeNumbers] = useState(true);
-  const [passwordStrength, setPasswordStrength] = useState('');
+  const [passwordStrength, setPasswordStrength] = useState("");
   const [crackTime, setCrackTime] = useState(null); // Initialize to null
   const [showRefreshButton, setShowRefreshButton] = useState(false);
   const { authenticated, setAuthenticated } = useContext(UserContext);
   const { user, setUser } = useContext(UserContext);
+
 
   // Calculate entropy based on the selected password length
   const calculateEntropy = useCallback(() => {
@@ -27,25 +28,21 @@ export function PwGenPage() {
     const entropy = Math.log2(26 ** passwordLength);
     return entropy;
   }, [passwordLength]);
-
   // Convert seconds to years for better readability
   const convertSecondsToYears = (seconds) => {
     const secondsInMinute = 60;
     const minutesInHour = 60;
     const hoursInDay = 24;
     const daysInYear = 365.25; // accounting for leap years
-
     return (
       seconds / (secondsInMinute * minutesInHour * hoursInDay * daysInYear)
     );
   };
-
   // Calculate password strength and estimated time to crack
   const calculateStrength = useCallback(
     (length) => {
-      let strength = '';
+      let strength = "";
       let timeToCrack = 0; // Initialize to 0 for the default case
-
       if (
         includeUppercase ||
         includeLowercase ||
@@ -53,23 +50,21 @@ export function PwGenPage() {
         includeNumbers
       ) {
         const entropy = calculateEntropy(length);
-
         // Password strength categories based on entropy
         if (entropy <= 35) {
-          strength = 'Weak';
+          strength = "Weak";
           timeToCrack = Math.round(0.5 * 2 ** entropy);
         } else if (entropy <= 59) {
-          strength = 'Fair';
+          strength = "Fair";
           timeToCrack = Math.round(0.5 * 2 ** entropy);
         } else if (entropy <= 119) {
-          strength = 'Good';
+          strength = "Good";
           timeToCrack = Math.round(0.5 * 2 ** entropy);
         } else if (entropy > 120) {
-          strength = 'Excellent';
+          strength = "Excellent";
           timeToCrack = Math.round(0.5 * 2 ** entropy);
         }
       }
-
       return [strength, timeToCrack];
     },
     [
@@ -80,26 +75,22 @@ export function PwGenPage() {
       includeNumbers,
     ]
   );
-
   // Generate a random password based on selected options
   const generatePassword = useCallback(() => {
     const [strength, timeToCrack] = calculateStrength(passwordLength);
     setPasswordStrength(strength);
     setCrackTime(timeToCrack);
-
     const allChars = getCharacterSet(
       includeUppercase,
       includeLowercase,
       includeSpecialChars,
       includeNumbers
     );
-
-    let password = '';
+    let password = "";
     for (let i = 0; i < passwordLength; i++) {
       const randomIndex = Math.floor(Math.random() * allChars.length);
       password += allChars.charAt(randomIndex);
     }
-
     setGeneratedPassword(password);
     setShowRefreshButton(true);
   }, [
@@ -114,39 +105,34 @@ export function PwGenPage() {
     setCrackTime,
     setShowRefreshButton,
   ]);
-
   // Determine the background color of the strength indicator based on password strength
   const calculateStrengthColor = (strength) => {
     switch (strength) {
-      case 'Weak':
-        return 'bg-red-500 text-white';
-      case 'Fair':
-        return 'bg-yellow-500 text-black';
-      case 'Good':
-        return 'bg-lime-500 text-black';
-      case 'Excellent':
-        return 'bg-green-500 text-white';
+      case "Weak":
+        return "bg-red-500 text-white";
+      case "Fair":
+        return "bg-yellow-500 text-black";
+      case "Good":
+        return "bg-lime-500 text-black";
+      case "Excellent":
+        return "bg-green-500 text-white";
       default:
-        return 'bg-transparent text-black';
+        return "bg-transparent text-black";
     }
   };
-
   // Get the character set based on selected options
   const getCharacterSet = (upper, lower, special, numbers) => {
     const charSets = [];
-    if (upper) charSets.push('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
-    if (lower) charSets.push('abcdefghijklmnopqrstuvwxyz');
-    if (special) charSets.push('!@#$%^&*()-_=+[]{}|;:\'",.<>/?`~');
-    if (numbers) charSets.push('0123456789');
-
-    return charSets.join('');
+    if (upper) charSets.push("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+    if (lower) charSets.push("abcdefghijklmnopqrstuvwxyz");
+    if (special) charSets.push("!@#$%^&*()-_=+[]{}|;:'\",.<>/?`~");
+    if (numbers) charSets.push("0123456789");
+    return charSets.join("");
   };
-
   // Copy the generated password to the clipboard
   const handleCopyPassword = () => {
     navigator.clipboard.writeText(generatedPassword);
   };
-
   // Initial password generation on component mount
   useEffect(() => {
     generatePassword();
@@ -158,7 +144,6 @@ export function PwGenPage() {
     passwordLength,
     generatePassword,
   ]);
-
   // Component rendering
   if (authenticated) {
     return (
@@ -213,12 +198,12 @@ export function PwGenPage() {
               <p className="mb-2 text-center max-w-full overflow-x-auto">
                 {crackTime !== null ? (
                   <>
-                    Estimated Time to Crack:{' '}
+                    Estimated Time to Crack:{" "}
                     {isNaN(crackTime)
-                      ? 'Infinity'
+                      ? "Infinity"
                       : crackTime % 1 === 0
                       ? convertSecondsToYears(crackTime).toFixed(0)
-                      : convertSecondsToYears(crackTime).toFixed(2)}{' '}
+                      : convertSecondsToYears(crackTime).toFixed(2)}{" "}
                     years
                   </>
                 ) : null}

@@ -1,21 +1,23 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useNavigate, Link, Navigate } from 'react-router-dom';
-import axios from 'axios';
-import { UserContext } from '../provider/UserProvider';
-import logoImage from '../Images/logo-tagline.png';
-import { jwtDecode } from 'jwt-decode';
-const DBPORT = process.env.REACT_APP_DB_PORT;
+import React, { useState, useEffect, useContext } from "react";
+import { useNavigate, Link, Navigate } from "react-router-dom";
+import axios from "axios";
+import { UserContext } from "../provider/UserProvider";
+import logoImage from "../Images/logo-tagline.png";
+import { jwtDecode } from "jwt-decode";
 
+const DBPORT = process.env.REACT_APP_DB_PORT;
 export const OnboardingPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const { authenticated, setAuthenticated, user, setUser } =
     useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     const checkAuth = async () => {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       try {
         if (token) {
           const tokenAuth = `Bearer ${token}`;
@@ -29,7 +31,7 @@ export const OnboardingPage = () => {
           }
         }
       } catch (err) {
-        localStorage.removeItem('token');
+        localStorage.removeItem("token");
       }
     };
     checkAuth();
@@ -47,18 +49,18 @@ export const OnboardingPage = () => {
         // Set authenticated state
         setAuthenticated(true);
         // Store token and payload in localStorage
-        localStorage.setItem('token', token);
-
+        localStorage.setItem("token", token);
         // Decode the token and set the user
         const decoded = jwtDecode(token);
         setUser(decoded); // Set the user using the decoded token payload
-        navigate('/');
+        navigate("/");
       }
     } catch (error) {
       // Handle login failure
-      alert('Login failed. Please check your credentials.');
+      alert("Login failed. Please check your credentials.");
     }
   };
+
 
   if (authenticated) {
     return <Navigate to="/" />;

@@ -1,19 +1,20 @@
-import { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from "react";
+//import jwt from "jsonwebtoken";
 
 export const UserContext = createContext();
 
 const UserContextProvider = ({ children }) => {
   const [authenticated, setAuthenticated] = useState(false);
-  const [user, setUser] = useState('');
+  const [user, setUser] = useState(null);
 
-  //create useEffect
 
   return (
     <UserContext.Provider
-      value={{ authenticated, setAuthenticated, user, setUser }}
+      value={{ authenticated, user, setUser, setAuthenticated }}
     >
       {children}
     </UserContext.Provider>
   );
 };
+
 export default UserContextProvider;
