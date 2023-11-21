@@ -3,6 +3,7 @@ import { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../provider/UserProvider';
 import { Navbar } from '../Components/NavBar';
 import Header from '../Components/Header';
+import Eyes from '../Components/Eyes';
 import axios from 'axios';
 const DBPORT = process.env.REACT_APP_DB_PORT;
 
@@ -99,7 +100,10 @@ export function PwBookPersonalPage() {
                       {!pwBooksItem.email ? null : (
                         <h1>Email: {pwBooksItem.email}</h1>
                       )}
-                      <h1>Password: {pwBooksItem.password}</h1>
+                      <div className="flex flex-row items-center">
+                        <h1>Password: </h1>
+                        <Eyes password={pwBooksItem.password} />
+                      </div>
                     </div>
                   ) : null}
                 </div>
