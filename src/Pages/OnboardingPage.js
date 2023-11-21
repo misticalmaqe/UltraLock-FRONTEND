@@ -4,10 +4,13 @@ import axios from "axios";
 import { UserContext } from "../provider/UserProvider";
 import logoImage from "../Images/logo-tagline.png";
 import { jwtDecode } from "jwt-decode";
+
 const DBPORT = process.env.REACT_APP_DB_PORT;
 export const OnboardingPage = () => {
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const { authenticated, setAuthenticated, user, setUser } =
     useContext(UserContext);
   const navigate = useNavigate();
@@ -33,6 +36,7 @@ export const OnboardingPage = () => {
     };
     checkAuth();
   }, [setAuthenticated]);
+
   const handleLogIn = async (e) => {
     e.preventDefault();
     try {
@@ -56,6 +60,8 @@ export const OnboardingPage = () => {
       alert("Login failed. Please check your credentials.");
     }
   };
+
+
   if (authenticated) {
     return <Navigate to="/" />;
   } else {

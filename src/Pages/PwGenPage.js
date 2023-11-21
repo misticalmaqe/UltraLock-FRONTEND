@@ -6,6 +6,7 @@ import logoImage from "../Images/logo-01.png";
 import refreshIcon from "../Images/icon-refresh.png";
 import copyIcon from "../Images/icon-copy.png";
 import { UserContext } from "../provider/UserProvider";
+
 export function PwGenPage() {
   // State variables
   const [generatedPassword, setGeneratedPassword] = useState("");
@@ -19,6 +20,8 @@ export function PwGenPage() {
   const [showRefreshButton, setShowRefreshButton] = useState(false);
   const { authenticated, setAuthenticated } = useContext(UserContext);
   const { user, setUser } = useContext(UserContext);
+
+
   // Calculate entropy based on the selected password length
   const calculateEntropy = useCallback(() => {
     // The formula for entropy is log2(number of possible combinations)

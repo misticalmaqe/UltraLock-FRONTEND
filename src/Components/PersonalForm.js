@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
+import { UserContext } from '../provider/UserProvider';
 import axios from 'axios';
 import addIconImage from '../Images/icon-add.png';
+import pasteImage from '../Images/icon-paste.png';
 const DBPORT = process.env.REACT_APP_DB_PORT;
 
 const PersonalForm = () => {
@@ -9,6 +11,22 @@ const PersonalForm = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { user } = useContext(UserContext);
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
+
+  const handlePasteClick = () => {
+    navigator.clipboard
+      .readText()
+      .then((copiedText) => {
+        setPassword(copiedText);
+      })
+      .catch((err) => {
+        console.error('Failed to read clipboard contents: ', err);
+      });
+  };
 
   //send data to database
   const writeData = async () => {
@@ -22,12 +40,14 @@ const PersonalForm = () => {
         `${DBPORT}/groupaccount`,
         newGroupAccount
       );
-      //find a way to read data
+      const groupId = createdGroupData.data.groupAccount.id;
+      console.log(groupId);
       const newPwBookEntry = {
-        userId: 2,
+        userId: user.id,
         userName: username,
         email: email,
         password: password,
+        groupAccountId: groupId,
       };
       await axios.post(`${DBPORT}/pwbookentry`, newPwBookEntry);
 
@@ -36,7 +56,7 @@ const PersonalForm = () => {
       setEmail('');
       setPassword('');
 
-      document.getElementById('sighting-form').close();
+      document.getElementById('personal-form').close();
     } catch (err) {
       console.error(err);
     }
@@ -47,7 +67,7 @@ const PersonalForm = () => {
       <img
         src={addIconImage}
         alt="Add Icon"
-        className="w-20 mr-10"
+        className="w-20 mr-10 cursor-pointer"
         onClick={() => document.getElementById('personal-form').showModal()}
       />
       <dialog id="personal-form" className="modal">
@@ -91,16 +111,24 @@ const PersonalForm = () => {
                 }}
               />
               <label className="text-m font-bold mb-2">Password :</label>
-              <input
-                className="w-60 h-[2rem] lg:h-[2.5rem] rounded-md border-accent bg-white text-txtcolor-secondary shadow-sm ring-1 ring-inset ring-white/10 focus:ring-text pl-[5px] mb-[20px]"
-                type="password"
-                name="title"
-                value={password}
-                placeholder="Password"
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-              />
+              <div className="">
+                <input
+                  className="w-60 h-[2rem] lg:h-[2.5rem] rounded-md border-accent bg-white text-txtcolor-secondary shadow-sm ring-1 ring-inset ring-white/10 focus:ring-text pl-[5px] mb-[20px]"
+                  type="password"
+                  name="title"
+                  value={password}
+                  placeholder="Password"
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                />
+                <img
+                  src={pasteImage}
+                  alt="Paste Icon"
+                  className="fixed w-10 ml-3 inline-block cursor-pointer"
+                  onClick={handlePasteClick}
+                />
+              </div>
               <button
                 className="py-2 px-4 rounded-md cursor-pointer bg-accent text-background mt-[20px]"
                 onClick={() => writeData()}
