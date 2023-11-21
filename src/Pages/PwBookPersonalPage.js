@@ -1,13 +1,16 @@
 // PwBookPersonalPage.js
 import { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../provider/UserProvider';
+import axios from 'axios';
+
+//--------------COMPONENTS--------------//
 import { Navbar } from '../Components/NavBar';
 import Header from '../Components/Header';
 import Eyes from '../Components/Eyes';
-import axios from 'axios';
-const DBPORT = process.env.REACT_APP_DB_PORT;
+import DeletePwBookEntry from '../Components/DeletePwBookEntry';
 
 export function PwBookPersonalPage() {
+  const DBPORT = process.env.REACT_APP_DB_PORT;
   //state for header
   const personalShared = false;
   const [pwBooks, setPwBooks] = useState('');
@@ -67,7 +70,7 @@ export function PwBookPersonalPage() {
   }, [user.id]);
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-background">
+    <div className="flex flex-col items-center min-h-screen bg-background pb-[170px]">
       <Header toggle={personalShared} />
 
       {/* Search bar */}
@@ -103,6 +106,12 @@ export function PwBookPersonalPage() {
                       <div className="flex flex-row items-center">
                         <h1>Password: </h1>
                         <Eyes password={pwBooksItem.password} />
+                        <div className="ml-auto">
+                          <DeletePwBookEntry
+                            pwbookId={pwBooksItem.id}
+                            groupAccountId={groupItem.id}
+                          />
+                        </div>
                       </div>
                     </div>
                   ) : null}

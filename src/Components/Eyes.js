@@ -9,16 +9,12 @@ const Eyes = ({ password }) => {
     setShowPassword(!showPassword);
   };
 
-  const hidePassword = () => {
-    return showPassword ? 'text' : 'password';
-  };
-
   const getPasswordDisplay = () => {
     return showPassword ? password : '*'.repeat(password.length);
   };
 
   return (
-    <div className="flex flex-row items-center pl-[10px]">
+    <div className="flex flex-row items-center pl-[5px]">
       <div>{getPasswordDisplay()}</div>
       <img
         src={showPassword ? OpenEye : ClosedEye}
