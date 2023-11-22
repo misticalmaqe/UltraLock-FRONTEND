@@ -1,14 +1,12 @@
-//--------------REACT--------------//
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
+import UserProvider from './provider/UserProvider';
 
 //--------------COMPONENTS--------------//
 import { PwGenPage } from './Pages/PwGenPage';
-
 import { PwBookPage } from './Pages/PwBookPage';
 import { PwBookPersonalPage } from './Pages/PwBookPersonalPage';
 import { PwBookSharedPage } from './Pages/PwBookSharedPage';
-
 import { ProfilePage } from './Pages/ProfilePage';
 import { OnboardingPage } from './Pages/OnboardingPage';
 import { ForgotPwPage } from './Pages/ForgotPwPage';
@@ -18,9 +16,10 @@ import { ErrorPage } from './Pages/ErrorPage';
 //--------------STYLING--------------//
 import './App.css';
 
+// App component
 export default function App() {
   return (
-    <>
+    <UserProvider>
       <Routes>
         <Route path="/" element={<PwGenPage />} />
         <Route path="/passwordbook">
@@ -31,9 +30,9 @@ export default function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/onboarding" element={<OnboardingPage />} />
         <Route path="/forgotpassword" element={<ForgotPwPage />} />
-        <Route path="/singup" element={<SignUpPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
-    </>
+    </UserProvider>
   );
 }
