@@ -1,10 +1,14 @@
 import { useEffect, useContext } from 'react';
-import { UserContext } from '../provider/UserProvider';
 import { useNavigate } from 'react-router-dom';
+
+//--------------COMPONENTS--------------//
+import { UserContext } from '../provider/UserProvider';
 import { Navbar } from '../Components/NavBar';
+import HeaderTwo from '../Components/HeaderTwo';
+
+//----------------IMAGES----------------//
 import personal from '../Images/icon-personal.png';
 import share from '../Images/icon-shared.png';
-import HeaderTwo from '../Components/HeaderTwo';
 
 export function PwBookPage() {
   const { personalFetchData, sharedFetchData } = useContext(UserContext);

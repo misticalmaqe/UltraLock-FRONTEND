@@ -1,12 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate, Link, Navigate } from 'react-router-dom';
 import axios from 'axios';
-import { UserContext } from '../provider/UserProvider';
-import logoImage from '../Images/logo-tagline.png';
 import { jwtDecode } from 'jwt-decode';
 
-const DBPORT = process.env.REACT_APP_DB_PORT;
+//--------------COMPONENTS--------------//
+import { UserContext } from '../provider/UserProvider';
+
+//----------------IMAGES----------------//
+import logoImage from '../Images/logo-tagline.png';
+
 export const OnboardingPage = () => {
+  const DBPORT = process.env.REACT_APP_DB_PORT;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 

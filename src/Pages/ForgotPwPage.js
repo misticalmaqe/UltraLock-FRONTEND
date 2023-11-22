@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+//----------------IMAGES----------------//
 import backArrowImage from '../Images/icon-back.png';
 import logoImage from '../Images/logo-tagline.png';
 

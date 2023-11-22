@@ -1,8 +1,12 @@
-// HeaderTwo.js
-import React, { useContext } from 'react';
-import logoImage from '../Images/logo-01.png';
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+//--------------COMPONENTS--------------//
 import { UserContext } from '../provider/UserProvider';
+
+//----------------IMAGES----------------//
+import logoImage from '../Images/logo-01.png';
+
 const HeaderTwo = () => {
   const { setAuthenticated } = useContext(UserContext);
   const navigate = useNavigate();

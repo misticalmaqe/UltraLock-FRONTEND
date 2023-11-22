@@ -1,10 +1,14 @@
 import React, { useState, useContext, useEffect } from 'react';
+import axios from 'axios';
+
+//--------------COMPONENTS--------------//
 import { Navbar } from '../Components/NavBar';
 import HeaderTwo from '../Components/HeaderTwo';
-import axios from 'axios';
 import { UserContext } from '../provider/UserProvider';
 
 export const ProfilePage = () => {
+  // Accessing the REACT_APP_DB_PORT environment variable
+  const DBPORT = process.env.REACT_APP_DB_PORT;
   // State variables for password, confirmPassword, and change password button click status
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -14,8 +18,6 @@ export const ProfilePage = () => {
 
   // Destructuring the user and checkAuth function from the UserContext
   const { user, checkAuth } = useContext(UserContext);
-  // Accessing the REACT_APP_DB_PORT environment variable
-  const DBPORT = process.env.REACT_APP_DB_PORT;
 
   // useEffect to fetch user data on component mount
   useEffect(() => {

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+
+//----------------IMAGES----------------//
 import OpenEye from '../Images/icon-eye-open.png';
 import ClosedEye from '../Images/icon-eye-closed.png';
 

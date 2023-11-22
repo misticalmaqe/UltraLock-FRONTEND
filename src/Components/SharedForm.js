@@ -1,11 +1,15 @@
 import { useState, useContext } from 'react';
-import { UserContext } from '../provider/UserProvider';
 import axios from 'axios';
+
+//--------------COMPONENTS--------------//
+import { UserContext } from '../provider/UserProvider';
+
+//----------------IMAGES----------------//
 import addIconImage from '../Images/icon-add.png';
 import pasteImage from '../Images/icon-paste.png';
-const DBPORT = process.env.REACT_APP_DB_PORT;
 
 const SharedForm = () => {
+  const DBPORT = process.env.REACT_APP_DB_PORT;
   //State for journal list
   const [groupName, setGroupName] = useState('');
   const [username, setUsername] = useState('');

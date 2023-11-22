@@ -1,4 +1,3 @@
-// PwBookPersonalPage.js
 import { useState, useEffect } from 'react';
 
 //--------------COMPONENTS--------------//
@@ -82,4 +81,3 @@ export function PwBookPersonalPage() {
     </div>
   );
 }
-

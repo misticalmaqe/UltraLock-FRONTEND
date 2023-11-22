@@ -1,5 +1,4 @@
-// Checkbox.js
-import React from "react";
+import React from 'react';
 
 const Checkbox = ({ label, checked, onChange }) => {
   return (

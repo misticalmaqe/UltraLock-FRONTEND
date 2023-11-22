@@ -1,4 +1,3 @@
-// PwBookSharedPage.js
 import { useState, useEffect } from 'react';
 //--------------COMPONENTS--------------//
 import { Navbar } from '../Components/NavBar';
