@@ -36,7 +36,7 @@ export function PwBookSharedPage() {
         //store all pwbooksEntries into pwBooks state}
         console.log(user.id);
         const pwBooksData = await axios.post(
-          `${DBPORT}/pwbookentry/allpwbgid/${groupIds}`,
+          `${DBPORT}/pwbookentry/allpwbgidSA/${groupIds}`,
           { userId: user.id }
         );
         setPwBooks(pwBooksData.data);

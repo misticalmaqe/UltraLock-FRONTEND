@@ -11,6 +11,7 @@ export default function DeletePwBookEntry({ pwbookId, groupAccountId }) {
   const [groupAccountsId, setGroupAccountsId] = useState(groupAccountId);
 
   const deleteData = async () => {
+    //deletes pwbookentry by user id
     try {
       await axios.delete(`${DBPORT}/pwbookentry/${id}`);
     } catch (err) {
@@ -22,7 +23,7 @@ export default function DeletePwBookEntry({ pwbookId, groupAccountId }) {
         `${DBPORT}/pwbookentry/allpwbgid/${groupAccountsId}`
       );
 
-      // Check if the response data is an empty array
+      // Check if there's a groupAccount with no pwbookentries
       if (Array.isArray(response.data) && response.data.length === 0) {
         // If it's an empty array, delete the groupAccountId
         try {
