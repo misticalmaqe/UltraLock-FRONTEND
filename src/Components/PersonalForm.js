@@ -7,16 +7,54 @@ const DBPORT = process.env.REACT_APP_DB_PORT;
 
 const PersonalForm = () => {
   //State for journal list
+  const [pwBooks, setPwBooks] = useState('');
+  const [groups, setGroups] = useState('');
   const [groupName, setGroupName] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { user } = useContext(UserContext);
+  const { user, personalFetchData } = useContext(UserContext);
 
   useEffect(() => {
-    console.log(user);
+    const getGroupIds = async () => {
+      try {
+        const pwBooksResponse = await axios.get(
+          `${DBPORT}/pwbookentry/allpw/${user.id}`
+        );
+        const pwBooksData = pwBooksResponse.data;
+        setPwBooks(pwBooksData); // Corrected from setPwBooks(pwBooks)
+
+        // Extract groupAccountIds from pwBooksData
+        const groupAccountIds = pwBooksData.map((book) => book.groupAccountId);
+
+        // Make another API call for each groupAccountId
+        const groupPromises = groupAccountIds.map(async (groupId) => {
+          try {
+            const groupResponse = await axios.get(
+              `${DBPORT}/groupaccount/personal/${groupId}`
+            );
+            return groupResponse.data;
+          } catch (error) {
+            console.error('Error fetching group data:', error);
+            return null;
+          }
+        });
+
+        // Resolve all promises
+        const groupsData = await Promise.all(groupPromises);
+        const modifiedGroupsData = groupsData.flatMap(
+          ({ groupAccounts }) => groupAccounts
+        );
+        setGroups(modifiedGroupsData);
+      } catch (error) {
+        console.error('Error fetching group data:', error);
+        return null;
+      }
+    };
+    getGroupIds();
   }, [user]);
 
+  //handle for pasting copied texts
   const handlePasteClick = () => {
     navigator.clipboard
       .readText()
@@ -28,20 +66,14 @@ const PersonalForm = () => {
       });
   };
 
-  //send data to database
   const writeData = async () => {
-    const newGroupAccount = {
-      groupName: groupName,
-      privateShared: false,
-    };
+    const existingGroup = groups.find(
+      (group) => group.groupName === groupName && group.privateShared === false
+    );
 
-    try {
-      const createdGroupData = await axios.post(
-        `${DBPORT}/groupaccount`,
-        newGroupAccount
-      );
-      const groupId = createdGroupData.data.groupAccount.id;
-      console.log(groupId);
+    if (existingGroup) {
+      const groupId = existingGroup.id;
+
       const newPwBookEntry = {
         userId: user.id,
         userName: username,
@@ -49,16 +81,55 @@ const PersonalForm = () => {
         password: password,
         groupAccountId: groupId,
       };
-      await axios.post(`${DBPORT}/pwbookentry`, newPwBookEntry);
 
-      setGroupName('');
-      setUsername('');
-      setEmail('');
-      setPassword('');
+      try {
+        await axios.post(`${DBPORT}/pwbookentry`, newPwBookEntry);
 
-      document.getElementById('personal-form').close();
-    } catch (err) {
-      console.error(err);
+        setGroupName('');
+        setUsername('');
+        setEmail('');
+        setPassword('');
+
+        // Assuming you have a modal or form with an ID 'personal-form'
+        document.getElementById('personal-form').close();
+      } catch (err) {
+        console.error(err);
+      }
+    } else {
+      const newGroupAccount = {
+        groupName: groupName,
+        privateShared: false,
+      };
+
+      try {
+        const createdGroupData = await axios.post(
+          `${DBPORT}/groupaccount`,
+          newGroupAccount
+        );
+        const groupId = createdGroupData.data.groupAccount.id;
+
+        const newPwBookEntry = {
+          userId: user.id,
+          userName: username,
+          email: email,
+          password: password,
+          groupAccountId: groupId,
+        };
+
+        await axios.post(`${DBPORT}/pwbookentry`, newPwBookEntry);
+
+        // Clear input fields
+        setGroupName('');
+        setUsername('');
+        setEmail('');
+        setPassword('');
+        //Fetch personal Data
+        personalFetchData();
+        // Close modal or form
+        document.getElementById('personal-form').close();
+      } catch (err) {
+        console.error(err);
+      }
     }
   };
 
