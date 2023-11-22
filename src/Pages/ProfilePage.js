@@ -48,7 +48,6 @@ export const ProfilePage = () => {
     try {
       // Get the userid from the user object
       const userid = user.id;
-      console.log(userid);
 
       // Make a PUT request to change the password
       const response = await axios.put(
@@ -56,14 +55,11 @@ export const ProfilePage = () => {
         { password }
       );
 
-      console.log('Change password response:', response.data);
-
       if (response.data.success) {
         alert('Password changed successfully!');
       }
     } catch (error) {
       console.error('Error changing password:', error);
-      console.log('Error response data:', error.response?.data);
       alert('Error changing password. Please try again.');
     }
   };

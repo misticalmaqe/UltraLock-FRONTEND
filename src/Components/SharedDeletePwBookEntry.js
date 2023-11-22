@@ -5,9 +5,8 @@ import axios from 'axios';
 import deleteImage from '../Images/icon-delete.png';
 import { UserContext } from '../provider/UserProvider';
 
-export default function SharedDeletePwBookEntry({ pwbookId, groupAccountId }) {
+export default function SharedDeletePwBookEntry({ groupAccountId }) {
   const DBPORT = process.env.REACT_APP_DB_PORT;
-  const [id, setId] = useState(pwbookId);
   const [groupAccountsId, setGroupAccountsId] = useState(groupAccountId);
   const { sharedFetchData } = useContext(UserContext);
 

@@ -15,9 +15,7 @@ export const ForgotPwPage = () => {
   };
 
   const handleSendResetLink = () => {
-    // Perform logic to send reset link
-    console.log('Reset link sent to:', email);
-    // You can add logic to handle the reset link and navigate accordingly
+    alert('Reset Link sent to:', email);
   };
 
   return (

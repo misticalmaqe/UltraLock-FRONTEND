@@ -91,7 +91,6 @@ const SharedForm = () => {
       const userIdsArray = userIdsResponse.data.userIds;
       //map to get userIds value
       const userIds = userIdsArray.map((user) => user.id);
-      console.log(userIds);
       // Use the obtained user IDs to create pwbookEntries for each user
       await Promise.all(
         userIds.map(async (userId) => {

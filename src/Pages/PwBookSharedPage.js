@@ -63,7 +63,6 @@ export function PwBookSharedPage() {
                       <Eyes password={pwBooksItem.password} />
                       <div className="ml-auto">
                         <SharedDeletePwBookEntry
-                          pwbookId={pwBooksItem.id}
                           groupAccountId={groupItem.id}
                         />
                       </div>

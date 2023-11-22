@@ -29,13 +29,10 @@ export default function PersonalDeletePwBookEntry({
       if (Array.isArray(response.data) && response.data.length === 0) {
         // Delete the groupAccountId if there are no more associated entries
         await axios.delete(`${DBPORT}/groupaccount/${groupAccountsId}`);
-        console.log(`Deleted groupAccountId: ${groupAccountsId}`);
       }
 
       //Fetch personal Data
       personalFetchData();
-
-      console.log(`Deleted pwbookentry with id: ${id}`);
     } catch (err) {
       console.error(err);
     }
