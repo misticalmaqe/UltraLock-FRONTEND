@@ -7,7 +7,7 @@ import axios from 'axios';
 import { Navbar } from '../Components/NavBar';
 import Header from '../Components/Header';
 import Eyes from '../Components/Eyes';
-import DeletePwBookEntry from '../Components/DeletePwBookEntry';
+import SharedDeletePwBookEntry from '../Components/SharedDeletePwBookEntry';
 
 export function PwBookSharedPage() {
   const DBPORT = process.env.REACT_APP_DB_PORT;
@@ -50,11 +50,6 @@ export function PwBookSharedPage() {
   return (
     <div className="flex flex-col items-center min-h-screen bg-background pb-[170px]">
       <Header toggle={personalShared} />
-      <input
-        type="text"
-        placeholder="Search..."
-        className="p-2 border rounded-md"
-      />
       <div className="max-w-screen m-4 grid justify-center gap-4 p-3 md:grid-cols-1 lg:grid-cols-3">
         {Array.isArray(groups) &&
           Array.isArray(pwBooks) &&
@@ -84,7 +79,7 @@ export function PwBookSharedPage() {
                         <h1>Password: </h1>
                         <Eyes password={pwBooksItem.password} />
                         <div className="ml-auto">
-                          <DeletePwBookEntry
+                          <SharedDeletePwBookEntry
                             pwbookId={pwBooksItem.id}
                             groupAccountId={groupItem.id}
                           />

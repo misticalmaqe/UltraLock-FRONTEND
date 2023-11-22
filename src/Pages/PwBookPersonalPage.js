@@ -15,7 +15,7 @@ export function PwBookPersonalPage() {
   const personalShared = false;
   const [pwBooks, setPwBooks] = useState('');
   const [groups, setGroups] = useState('');
-  const { user } = useContext(UserContext);
+  const { user, checkAuth } = useContext(UserContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -64,19 +64,15 @@ export function PwBookPersonalPage() {
       }
     };
 
+    checkAuth();
     fetchData();
     console.log(pwBooks);
     console.log(groups);
-  }, [user.id]);
+  }, []);
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-background pb-[170px]">
       <Header toggle={personalShared} />
-      <input
-        type="text"
-        placeholder="Search..."
-        className="p-2 border rounded-md"
-      />
       <div className="max-w-screen m-4 grid justify-center gap-4 p-3 md:grid-cols-1 lg:grid-cols-3">
         {Array.isArray(groups) &&
           Array.isArray(pwBooks) &&
