@@ -13,7 +13,7 @@ const SharedForm = () => {
   const [password, setPassword] = useState('');
   const [otherUser, setOtherUser] = useState('');
   const [otherUsers, setOtherUsers] = useState([]);
-  const { user } = useContext(UserContext);
+  const { user, sharedFetchData } = useContext(UserContext);
 
   const handlePasteClick = () => {
     navigator.clipboard
@@ -142,6 +142,17 @@ const SharedForm = () => {
           }
         })
       );
+
+      // Clear form fields and state after updating session storage and database
+      setGroupName('');
+      setUsername('');
+      setEmail('');
+      setPassword('');
+      setOtherUser('');
+      setOtherUsers([]);
+
+      //call fetch data.
+      sharedFetchData();
     } catch (err) {
       console.error('failed entirely', err);
     }

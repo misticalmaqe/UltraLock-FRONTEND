@@ -13,7 +13,7 @@ const PersonalForm = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { user } = useContext(UserContext);
+  const { user, personalFetchData } = useContext(UserContext);
 
   useEffect(() => {
     const getGroupIds = async () => {
@@ -54,6 +54,7 @@ const PersonalForm = () => {
     getGroupIds();
   }, [user]);
 
+  //handle for pasting copied texts
   const handlePasteClick = () => {
     navigator.clipboard
       .readText()
@@ -67,7 +68,7 @@ const PersonalForm = () => {
 
   const writeData = async () => {
     const existingGroup = groups.find(
-      (group) => group.groupName === groupName && group.privateShared === false // Assuming privateShared is a boolean
+      (group) => group.groupName === groupName && group.privateShared === false
     );
 
     if (existingGroup) {
@@ -117,12 +118,14 @@ const PersonalForm = () => {
 
         await axios.post(`${DBPORT}/pwbookentry`, newPwBookEntry);
 
+        // Clear input fields
         setGroupName('');
         setUsername('');
         setEmail('');
         setPassword('');
-
-        // Assuming you have a modal or form with an ID 'personal-form'
+        //Fetch personal Data
+        personalFetchData();
+        // Close modal or form
         document.getElementById('personal-form').close();
       } catch (err) {
         console.error(err);

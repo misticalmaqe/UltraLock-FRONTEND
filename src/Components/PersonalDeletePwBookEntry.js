@@ -1,40 +1,41 @@
 //-----------React-----------//
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import axios from 'axios';
 
 //-----------Components-----------//
 import deleteImage from '../Images/icon-delete.png';
+import { UserContext } from '../provider/UserProvider';
 
-export default function DeletePwBookEntry({ pwbookId, groupAccountId }) {
+export default function PersonalDeletePwBookEntry({
+  pwbookId,
+  groupAccountId,
+}) {
   const DBPORT = process.env.REACT_APP_DB_PORT;
   const [id, setId] = useState(pwbookId);
   const [groupAccountsId, setGroupAccountsId] = useState(groupAccountId);
+  const { personalFetchData } = useContext(UserContext);
 
   const deleteData = async () => {
-    //deletes pwbookentry by user id
     try {
+      // Delete data from the database
       await axios.delete(`${DBPORT}/pwbookentry/${id}`);
-    } catch (err) {
-      console.error(err);
-    }
-    try {
-      // Get data using axios.get
+
+      // Get data using axios.get to check the status after deletion
       const response = await axios.get(
         `${DBPORT}/pwbookentry/allpwbgid/${groupAccountsId}`
       );
 
-      // Check if there's a groupAccount with no pwbookentries
+      // Check if there are no more pwbookentries associated with this groupAccountId
       if (Array.isArray(response.data) && response.data.length === 0) {
-        // If it's an empty array, delete the groupAccountId
-        try {
-          await axios.delete(`${DBPORT}/groupaccount/${groupAccountsId}`);
-          console.log(`Deleted groupAccountId: ${groupAccountsId}`);
-        } catch (err) {
-          console.error(err);
-        }
-      } else {
-        console.log('Array is not empty, not performing any action.');
+        // Delete the groupAccountId if there are no more associated entries
+        await axios.delete(`${DBPORT}/groupaccount/${groupAccountsId}`);
+        console.log(`Deleted groupAccountId: ${groupAccountsId}`);
       }
+
+      //Fetch personal Data
+      personalFetchData();
+
+      console.log(`Deleted pwbookentry with id: ${id}`);
     } catch (err) {
       console.error(err);
     }

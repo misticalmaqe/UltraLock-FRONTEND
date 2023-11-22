@@ -1,12 +1,20 @@
-import React from 'react';
+import { useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Navbar } from '../Components/NavBar';
+import { UserContext } from '../provider/UserProvider';
 import personal from '../Images/icon-personal.png';
 import share from '../Images/icon-shared.png';
 import logo from '../Images/logo-01.png';
 
 export function PwBookPage() {
+  const { personalFetchData, sharedFetchData } = useContext(UserContext);
   const navigate = useNavigate();
+
+  //useEffect for setting up session storage in Personal Page
+  useEffect(() => {
+    personalFetchData();
+    sharedFetchData();
+  });
 
   return (
     <div className="flex flex-col items-center h-screen bg-background">
