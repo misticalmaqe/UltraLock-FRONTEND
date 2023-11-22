@@ -1,22 +1,37 @@
 // HeaderTwo.js
-import React from "react";
+import React, { useContext } from "react";
 import logoImage from "../Images/logo-01.png";
-
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../provider/UserProvider";
 const HeaderTwo = () => {
+  const { setAuthenticated } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setAuthenticated(false);
+    navigate("/onboarding");
+  };
+
   return (
-    <div
-      className="flex items-center justify-between w-full mt-0 ml-0 bg-background p-0"
-      style={{ padding: 0, margin: 0 }}
-    >
-      <div className="flex items-center mx-auto">
-        {/* Apply styles to the logo image */}
-        <img
-          src={logoImage}
-          alt="UltraLock logo"
-          className="w-20 h-20 mt-0 mb-0 p-0 m-0"
-          style={{ padding: 0, margin: 0 }}
-        />
-      </div>
+    <div className="flex w-full bg-background justify-center absolute top-5">
+      {/* Logo at the top center */}
+      <div></div>
+
+      <img
+        src={logoImage}
+        alt="UltraLock logo"
+        className="flex justify-center w-20 "
+      />
+
+      {/* Logout button at the top left */}
+
+      <button
+        className="bg-accent text-background shadow-md shadow-window r-10 absolute"
+        onClick={handleLogout}
+      >
+        Logout
+      </button>
     </div>
   );
 };
