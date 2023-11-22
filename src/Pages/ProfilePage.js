@@ -1,159 +1,133 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Navbar } from "../Components/NavBar";
 import HeaderTwo from "../Components/HeaderTwo";
-import { useLocation } from "react-router-dom";
 import axios from "axios";
+import { UserContext } from "../provider/UserProvider";
 
-export function ProfilePage() {
-  const location = useLocation();
-
-  // State to manage the user input
-  const [email, setEmail] = useState("");
+export const ProfilePage = () => {
+  // State variables for password, confirmPassword, and change password button click status
   const [password, setPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [uploadedImage, setUploadedImage] = useState(null);
+  const [isChangePasswordClicked, setIsChangePasswordClicked] = useState(false);
+  // New state variable to track whether data has been fetched
+  const [dataFetched, setDataFetched] = useState(false);
 
+  // Destructuring the user and checkAuth function from the UserContext
+  const { user, checkAuth } = useContext(UserContext);
+  // Accessing the REACT_APP_DB_PORT environment variable
+  const DBPORT = process.env.REACT_APP_DB_PORT;
+
+  // useEffect to fetch user data on component mount
   useEffect(() => {
-    // Retrieve email from the location state
-    if (location.state && location.state.email) {
-      setEmail(location.state.email);
-    }
-  }, [location.state]); // Include location.state as a dependency
+    const fetchData = async () => {
+      // Check if data has not been fetched yet
+      if (!dataFetched) {
+        // Fetch user data
+        await checkAuth();
+        console.log(user);
+        // Set the state to true after fetching data
+        setDataFetched(true);
+      }
+    };
 
-  // Function to handle saving the user details
-  const saveProfile = async () => {
-    try {
-      // Perform the save operation (replace this with your logic, e.g., API call)
-      const response = await axios.post(
-        `http://localhost:8080/user/saveProfile`,
-        {
-          email,
-          password,
-          uploadedImage,
-        }
-      );
-      console.log("Save profile response:", response.data);
-      // You can add your logic to handle the response
-    } catch (error) {
-      console.error("Error saving profile:", error);
-    }
-  };
+    fetchData();
+  }, [checkAuth, user, dataFetched]); // Include dataFetched in the dependency array
 
-  // Function to handle image upload
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    setUploadedImage(file);
-  };
+  // Accessing the userEmail with optional chaining to handle null user
+  const userEmail = user ? user.email : "";
 
-  // Function to handle changing the password
+  // Function to handle the change password logic
   const changePassword = async () => {
-    // Check if the new password matches the confirmation
-    if (newPassword !== confirmPassword) {
+    // Check if passwords match
+    if (password !== confirmPassword) {
       alert("New password and confirmation do not match");
       return;
     }
 
     try {
-      // Perform the change password operation (replace this with your logic, e.g., API call)
-      const response = await axios.post(
-        `http://localhost:8080/user/changePassword`,
-        {
-          email,
-          newPassword,
-        }
+      // Get the userid from the user object
+      const userid = user.id;
+      console.log(userid);
+
+      // Make a PUT request to change the password
+      const response = await axios.put(
+        `${DBPORT}/user/changePassword/${userid}`,
+        { password }
       );
 
       console.log("Change password response:", response.data);
 
-      // Check if the password change was successful
       if (response.data.success) {
-        // Password change was successful, show an alert
         alert("Password changed successfully!");
       }
-
-      // You can add your logic to handle the response
     } catch (error) {
       console.error("Error changing password:", error);
-
-      // Log the response data if available
       console.log("Error response data:", error.response?.data);
-
-      // Show an alert for the error
       alert("Error changing password. Please try again.");
     }
   };
 
+  // JSX to render the profile page
   return (
-    <>
-      <HeaderTwo />
-      <div
-        className="flex flex-col min-h-screen items-center justify-center"
-        style={{ backgroundColor: "#DDF2FD" }}
-      >
-        {/* Navbar */}
-        <Navbar />
+    <div>
+      {/* Header component */}
+      <HeaderTwo style={{ marginBottom: "20px" }} />
 
-        <div className="flex flex-col items-center bg-background overflow-hidden">
-          <div className="flex flex-col items-center p-4">
-            {/* Image Upload */}
-            <label>Upload Image:</label>
-            <input type="file" accept="image/*" onChange={handleImageUpload} />
-            {uploadedImage && (
-              <img
-                src={URL.createObjectURL(uploadedImage)}
-                alt="Preview"
-                style={{ maxWidth: "200px", marginTop: "10px" }}
+      {/* Main content */}
+      <div className="flex flex-col items-center bg-background h-screen text-text ">
+        <div
+          className="flex flex-col items-center p-4"
+          style={{ marginTop: "200px" }}
+        >
+          {/* Display user email if user is not null */}
+          {user && (
+            <>
+              <label>Email:</label>
+              <input type="text" value={userEmail} readOnly />
+            </>
+          )}
+
+          {/* Change password section */}
+          {isChangePasswordClicked && (
+            <>
+              <label>New Password:</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
-            )}
-            <br />
 
-            {/* Email */}
-            <label>Email:</label>
-            <input
-              type="text"
-              value={email}
-              readOnly // Use readOnly instead of disabled
-              className="mb-2"
-            />
-            <br />
+              <label>Confirm Password:</label>
+              <input
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
 
-            {/* New Password */}
-            <label>New Password:</label>
-            <input
-              type="password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              className="mb-2"
-            />
-            <br />
+              {/* Button to trigger password change */}
+              <button
+                className="bg-accent text-background rounded-full px-4 py-2 ml-2"
+                onClick={changePassword}
+              >
+                Change Password
+              </button>
+            </>
+          )}
 
-            {/* Confirm Password */}
-            <label>Confirm Password:</label>
-            <input
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="mb-2"
-            />
-            <br />
-
-            {/* Save and Change Password buttons */}
-            <button
-              className="bg-accent text-background rounded-full px-4 py-2"
-              onClick={saveProfile}
-            >
-              Save
-            </button>
+          {/* Button to toggle change password section visibility */}
+          {!isChangePasswordClicked && (
             <button
               className="bg-accent text-background rounded-full px-4 py-2 ml-2"
-              onClick={changePassword}
+              onClick={() => setIsChangePasswordClicked(true)}
             >
               Change Password
             </button>
-          </div>
+          )}
         </div>
       </div>
-    </>
+
+      {/* Navbar component */}
+      <Navbar />
+    </div>
   );
-}
+};

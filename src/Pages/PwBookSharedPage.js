@@ -1,7 +1,7 @@
 // PwBookPersonalPage.js
-import { useState } from 'react';
-import { Navbar } from '../Components/NavBar';
-import Header from '../Components/Header';
+import { useState } from "react";
+import { Navbar } from "../Components/NavBar";
+import Header from "../Components/Header";
 
 export function PwBookSharedPage() {
   //state for header

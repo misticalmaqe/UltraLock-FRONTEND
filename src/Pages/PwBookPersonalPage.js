@@ -1,16 +1,16 @@
 // PwBookPersonalPage.js
-import { useState, useEffect, useContext } from 'react';
-import { UserContext } from '../provider/UserProvider';
-import { Navbar } from '../Components/NavBar';
-import Header from '../Components/Header';
-import axios from 'axios';
+import { useState, useEffect, useContext } from "react";
+import { UserContext } from "../provider/UserProvider";
+import { Navbar } from "../Components/NavBar";
+import Header from "../Components/Header";
+import axios from "axios";
 const DBPORT = process.env.REACT_APP_DB_PORT;
 
 export function PwBookPersonalPage() {
   //state for header
   const personalShared = false;
-  const [pwBooks, setPwBooks] = useState('');
-  const [groups, setGroups] = useState('');
+  const [pwBooks, setPwBooks] = useState("");
+  const [groups, setGroups] = useState("");
   const { user } = useContext(UserContext);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export function PwBookPersonalPage() {
             );
             return groupResponse.data;
           } catch (error) {
-            console.error('Error fetching group data:', error);
+            console.error("Error fetching group data:", error);
             return null;
           }
         });
@@ -56,7 +56,7 @@ export function PwBookPersonalPage() {
 
         setGroups(uniqueGroupsData);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
 
@@ -69,12 +69,6 @@ export function PwBookPersonalPage() {
     <div className="flex flex-col items-center min-h-screen bg-background">
       <Header toggle={personalShared} />
 
-      {/* Search bar */}
-      <input
-        type="text"
-        placeholder="Search..."
-        className="p-2 border rounded-md"
-      />
       <div className="max-w-screen m-4 grid justify-center gap-4 p-3 md:grid-cols-1 lg:grid-cols-3">
         {Array.isArray(groups) &&
           groups.map((groupItem) => (
