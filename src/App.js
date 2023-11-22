@@ -1,8 +1,8 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import UserProvider from "./provider/UserProvider";
 
-//--------------COMPONENTS--------------//
-
+// Import your components...
 import { PwGenPage } from "./Pages/PwGenPage";
 import { PwBookPage } from "./Pages/PwBookPage";
 import { PwBookPersonalPage } from "./Pages/PwBookPersonalPage";
@@ -12,7 +12,6 @@ import { OnboardingPage } from "./Pages/OnboardingPage";
 import { ForgotPwPage } from "./Pages/ForgotPwPage";
 import { SignUpPage } from "./Pages/SignUpPage";
 import { ErrorPage } from "./Pages/ErrorPage";
-import UserProvider from "./provider/UserProvider";
 
 //--------------STYLING--------------//
 import "./App.css";

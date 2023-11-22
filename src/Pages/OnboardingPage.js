@@ -7,12 +7,10 @@ import { jwtDecode } from "jwt-decode";
 
 const DBPORT = process.env.REACT_APP_DB_PORT;
 export const OnboardingPage = () => {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { authenticated, setAuthenticated, user, setUser } =
-    useContext(UserContext);
+  const { authenticated, setAuthenticated, setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -61,7 +59,6 @@ export const OnboardingPage = () => {
     }
   };
 
-
   if (authenticated) {
     return <Navigate to="/" />;
   } else {
@@ -88,7 +85,7 @@ export const OnboardingPage = () => {
               type="password"
               name="password"
               value={password}
-              placeholder=" Insert your password"
+              placeholder=" Insert yor password"
               onChange={(e) => {
                 setPassword(e.target.value);
               }}

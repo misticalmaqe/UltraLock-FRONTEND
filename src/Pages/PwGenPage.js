@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useContext } from "react";
 import { Navigate } from "react-router-dom";
 import { Navbar } from "../Components/NavBar";
 import Checkbox from "../Components/Checkbox";
-import logoImage from "../Images/logo-01.png";
+import HeaderTwo from "../Components/HeaderTwo";
 import refreshIcon from "../Images/icon-refresh.png";
 import copyIcon from "../Images/icon-copy.png";
 import { UserContext } from "../provider/UserProvider";
@@ -20,7 +20,6 @@ export function PwGenPage() {
   const [showRefreshButton, setShowRefreshButton] = useState(false);
   const { authenticated, setAuthenticated } = useContext(UserContext);
   const { user, setUser } = useContext(UserContext);
-
 
   // Calculate entropy based on the selected password length
   const calculateEntropy = useCallback(() => {
@@ -147,15 +146,15 @@ export function PwGenPage() {
   // Component rendering
   if (authenticated) {
     return (
-      <div className="flex flex-col pt-[50px] items-center bg-background h-screen text-text">
-        <img className="w-40" src={logoImage} alt="UltraLock logo" />
-        <div className="flex flex-col items-center w-full">
-          <div className="w-full max-w-screen-md">
-            <h1 className="text-xl font-bold my-10 text-center">
+      <div>
+        <div className="flex flex-col items-center bg-background w-full">
+          <HeaderTwo style={{ marginBottom: "20px" }} />
+          <div className="w-full max-w-screen-md ">
+            <h1 className="text-xl font-bold my-10 text-center ">
               Generate robust, secure passwords effortlessly with our free
               password generator, ensuring enhanced online security.
             </h1>
-            <div className="flex flex-col items-center justify-center">
+            <div className="flex flex-col items-center justify-center ">
               {/* Display the generated password */}
               <p className="font-mono text-[1.4rem] mb-[20px] text-center max-w-full overflow-x-auto">
                 {generatedPassword}
