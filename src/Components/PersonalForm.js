@@ -7,52 +7,11 @@ const DBPORT = process.env.REACT_APP_DB_PORT;
 
 const PersonalForm = () => {
   //State for journal list
-  const [pwBooks, setPwBooks] = useState('');
-  const [groups, setGroups] = useState('');
   const [groupName, setGroupName] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { user, personalFetchData } = useContext(UserContext);
-
-  useEffect(() => {
-    const getGroupIds = async () => {
-      try {
-        const pwBooksResponse = await axios.get(
-          `${DBPORT}/pwbookentry/allpw/${user.id}`
-        );
-        const pwBooksData = pwBooksResponse.data;
-        setPwBooks(pwBooksData); // Corrected from setPwBooks(pwBooks)
-
-        // Extract groupAccountIds from pwBooksData
-        const groupAccountIds = pwBooksData.map((book) => book.groupAccountId);
-
-        // Make another API call for each groupAccountId
-        const groupPromises = groupAccountIds.map(async (groupId) => {
-          try {
-            const groupResponse = await axios.get(
-              `${DBPORT}/groupaccount/personal/${groupId}`
-            );
-            return groupResponse.data;
-          } catch (error) {
-            console.error('Error fetching group data:', error);
-            return null;
-          }
-        });
-
-        // Resolve all promises
-        const groupsData = await Promise.all(groupPromises);
-        const modifiedGroupsData = groupsData.flatMap(
-          ({ groupAccounts }) => groupAccounts
-        );
-        setGroups(modifiedGroupsData);
-      } catch (error) {
-        console.error('Error fetching group data:', error);
-        return null;
-      }
-    };
-    getGroupIds();
-  }, [user]);
 
   //handle for pasting copied texts
   const handlePasteClick = () => {
@@ -67,10 +26,11 @@ const PersonalForm = () => {
   };
 
   const writeData = async () => {
-    const existingGroup = groups.find(
+    const existingGroups =
+      JSON.parse(sessionStorage.getItem('personalGroups')) || [];
+    const existingGroup = existingGroups.find(
       (group) => group.groupName === groupName && group.privateShared === false
     );
-
     if (existingGroup) {
       const groupId = existingGroup.id;
 
@@ -89,8 +49,8 @@ const PersonalForm = () => {
         setUsername('');
         setEmail('');
         setPassword('');
+        personalFetchData();
 
-        // Assuming you have a modal or form with an ID 'personal-form'
         document.getElementById('personal-form').close();
       } catch (err) {
         console.error(err);

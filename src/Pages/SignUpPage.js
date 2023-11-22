@@ -1,22 +1,26 @@
-import React, { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import backArrowImage from "../Images/icon-back.png";
-import logoImage from "../Images/logo-tagline.png";
-import axios from "axios";
-import { jwtDecode } from "jwt-decode";
-import { UserContext } from "../provider/UserProvider";
+import { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 
-const DBPORT = process.env.REACT_APP_DB_PORT;
+//--------------COMPONENTS--------------//
+import { UserContext } from '../provider/UserProvider';
+
+//----------------Images----------------//
+import backArrowImage from '../Images/icon-back.png';
+import logoImage from '../Images/logo-tagline.png';
 
 export const SignUpPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const DBPORT = process.env.REACT_APP_DB_PORT;
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const { setAuthenticated, setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
+  //useEffect to check if authenticated
   useEffect(() => {
     const checkAuth = async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem('token');
       try {
         if (token) {
           const tokenAuth = `Bearer ${token}`;
@@ -30,12 +34,13 @@ export const SignUpPage = () => {
           }
         }
       } catch (err) {
-        localStorage.removeItem("token");
+        localStorage.removeItem('token');
       }
     };
     checkAuth();
   }, [setAuthenticated]);
 
+  //signup button
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
@@ -49,20 +54,20 @@ export const SignUpPage = () => {
         // Set authenticated state
         setAuthenticated(true);
         // Store token and payload in localStorage
-        localStorage.setItem("token", token);
+        localStorage.setItem('token', token);
         // Decode the token and set the user
         const decoded = jwtDecode(token);
         setUser(decoded); // Set the user using the decoded token payload
         // Navigate after successful signup
-        navigate("/onboarding");
+        navigate('/onboarding');
       }
     } catch (error) {
       if (error.response && error.response.status === 409) {
         // Handle email already in use
-        alert("Email already in use. Please use a different email address.");
+        alert('Email already in use. Please use a different email address.');
       } else {
         // Handle other signup failures
-        alert("Signup failed. Please check your credentials.");
+        alert('Signup failed. Please check your credentials.');
       }
     }
   };
@@ -73,7 +78,7 @@ export const SignUpPage = () => {
         className="w-20 cursor-pointer absolute top-5 left-10 z-10"
         src={backArrowImage}
         alt="Back Arrow"
-        onClick={() => navigate("/onboarding")}
+        onClick={() => navigate('/onboarding')}
       />
       <img className="w-80" src={logoImage} alt="UltraLock logo" />
       <div className="flex flex-col mb-10">

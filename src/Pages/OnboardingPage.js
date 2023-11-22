@@ -1,21 +1,21 @@
-import React, { useState, useEffect, useContext } from "react";
-import { useNavigate, Link, Navigate } from "react-router-dom";
-import axios from "axios";
-import { UserContext } from "../provider/UserProvider";
-import logoImage from "../Images/logo-tagline.png";
-import { jwtDecode } from "jwt-decode";
+import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate, Link, Navigate } from 'react-router-dom';
+import axios from 'axios';
+import { UserContext } from '../provider/UserProvider';
+import logoImage from '../Images/logo-tagline.png';
+import { jwtDecode } from 'jwt-decode';
 
 const DBPORT = process.env.REACT_APP_DB_PORT;
 export const OnboardingPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const { authenticated, setAuthenticated, setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     const checkAuth = async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem('token');
       try {
         if (token) {
           const tokenAuth = `Bearer ${token}`;
@@ -29,7 +29,7 @@ export const OnboardingPage = () => {
           }
         }
       } catch (err) {
-        localStorage.removeItem("token");
+        localStorage.removeItem('token');
       }
     };
     checkAuth();
@@ -47,15 +47,15 @@ export const OnboardingPage = () => {
         // Set authenticated state
         setAuthenticated(true);
         // Store token and payload in localStorage
-        localStorage.setItem("token", token);
+        localStorage.setItem('token', token);
         // Decode the token and set the user
         const decoded = jwtDecode(token);
         setUser(decoded); // Set the user using the decoded token payload
-        navigate("/");
+        navigate('/');
       }
     } catch (error) {
       // Handle login failure
-      alert("Login failed. Please check your credentials.");
+      alert('Login failed. Please check your credentials.');
     }
   };
 
@@ -65,11 +65,11 @@ export const OnboardingPage = () => {
     return (
       <div className="flex flex-col pt-[100px] items-center bg-background h-screen text-text">
         <img src={logoImage} alt="UltraLock logo" className="w-80 mb-[20px]" />
-        <form className="flex flex-col w-full max-w-md">
+        <form className="flex flex-col w-full items-center max-w-md">
           <div className="flex flex-col mb-10">
             <label className="text-m font-bold mb-2">Email:</label>
             <input
-              className="w-full h-[2rem] lg:h-[2.5rem] rounded-md border-accent bg-white text-text shadow-sm ring-1 ring-inset ring-white/10 focus:ring-text mb-[1rem] pl-[5px]"
+              className="w-80 h-[2rem] lg:h-[2.5rem] rounded-md border-accent bg-white text-text shadow-sm ring-1 ring-inset ring-white/10 focus:ring-text mb-[1rem] pl-[5px]"
               type="text"
               name="email"
               value={email}
@@ -81,11 +81,11 @@ export const OnboardingPage = () => {
             />
             <label className="text-m font-bold mb-2">Password:</label>
             <input
-              className="w-full h-[2rem] lg:h-[2.5rem] rounded-md border-accent bg-white text-txtcolor-secondary shadow-sm ring-1 ring-inset ring-white/10 focus:ring-text pl-[5px]"
+              className="w-80 h-[2rem] lg:h-[2.5rem] rounded-md border-accent bg-white text-txtcolor-secondary shadow-sm ring-1 ring-inset ring-white/10 focus:ring-text pl-[5px]"
               type="password"
               name="password"
               value={password}
-              placeholder=" Insert yor password"
+              placeholder=" Insert your password"
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
@@ -95,13 +95,13 @@ export const OnboardingPage = () => {
             type="button"
             onClick={handleLogIn}
             value="LOG IN"
-            className="py-2 px-4 rounded-md cursor-pointer bg-accent text-background"
+            className="w-80 py-2 px-4 rounded-md cursor-pointer bg-accent text-background"
           />
-          <div className="flex justify-between mt-[30px]">
+          <div className="flex justify-between mt-[30px] items-center">
             {/* Change the button to a Link component */}
             <Link
               to="/signup"
-              className="py-2 px-4 rounded-md cursor-pointer mt-2 bg-accent text-background w-full mr-[20px] text-center"
+              className="py-5 px-4 rounded-md cursor-pointer mt-2 bg-accent text-background w-full mr-[20px] text-center"
             >
               SIGN UP
             </Link>

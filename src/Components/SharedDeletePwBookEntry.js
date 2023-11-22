@@ -10,13 +10,13 @@ export default function SharedDeletePwBookEntry({ pwbookId, groupAccountId }) {
   const DBPORT = process.env.REACT_APP_DB_PORT;
   const [id, setId] = useState(pwbookId);
   const [groupAccountsId, setGroupAccountsId] = useState(groupAccountId);
-  const { personalFetchData } = useContext(UserContext);
+  const { sharedFetchData } = useContext(UserContext);
 
   const deleteData = async () => {
     try {
       await axios.delete(`${DBPORT}/groupaccount/${groupAccountsId}`);
       //Fetch data from db
-      personalFetchData();
+      sharedFetchData();
     } catch (err) {
       console.error(err);
     }

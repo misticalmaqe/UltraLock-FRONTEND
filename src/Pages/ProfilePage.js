@@ -1,13 +1,13 @@
-import React, { useState, useContext, useEffect } from "react";
-import { Navbar } from "../Components/NavBar";
-import HeaderTwo from "../Components/HeaderTwo";
-import axios from "axios";
-import { UserContext } from "../provider/UserProvider";
+import React, { useState, useContext, useEffect } from 'react';
+import { Navbar } from '../Components/NavBar';
+import HeaderTwo from '../Components/HeaderTwo';
+import axios from 'axios';
+import { UserContext } from '../provider/UserProvider';
 
 export const ProfilePage = () => {
   // State variables for password, confirmPassword, and change password button click status
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [isChangePasswordClicked, setIsChangePasswordClicked] = useState(false);
   // New state variable to track whether data has been fetched
   const [dataFetched, setDataFetched] = useState(false);
@@ -24,7 +24,6 @@ export const ProfilePage = () => {
       if (!dataFetched) {
         // Fetch user data
         await checkAuth();
-        console.log(user);
         // Set the state to true after fetching data
         setDataFetched(true);
       }
@@ -34,13 +33,13 @@ export const ProfilePage = () => {
   }, [checkAuth, user, dataFetched]); // Include dataFetched in the dependency array
 
   // Accessing the userEmail with optional chaining to handle null user
-  const userEmail = user ? user.email : "";
+  const userEmail = user ? user.email : '';
 
   // Function to handle the change password logic
   const changePassword = async () => {
     // Check if passwords match
     if (password !== confirmPassword) {
-      alert("New password and confirmation do not match");
+      alert('New password and confirmation do not match');
       return;
     }
 
@@ -55,15 +54,15 @@ export const ProfilePage = () => {
         { password }
       );
 
-      console.log("Change password response:", response.data);
+      console.log('Change password response:', response.data);
 
       if (response.data.success) {
-        alert("Password changed successfully!");
+        alert('Password changed successfully!');
       }
     } catch (error) {
-      console.error("Error changing password:", error);
-      console.log("Error response data:", error.response?.data);
-      alert("Error changing password. Please try again.");
+      console.error('Error changing password:', error);
+      console.log('Error response data:', error.response?.data);
+      alert('Error changing password. Please try again.');
     }
   };
 
@@ -71,42 +70,51 @@ export const ProfilePage = () => {
   return (
     <div>
       {/* Header component */}
-      <HeaderTwo style={{ marginBottom: "20px" }} />
+      <HeaderTwo />
 
       {/* Main content */}
-      <div className="flex flex-col items-center bg-background h-screen text-text ">
-        <div
-          className="flex flex-col items-center p-4"
-          style={{ marginTop: "200px" }}
-        >
+      <div className="flex flex-col justify-center bg-background h-screen text-text ">
+        <div className="flex flex-col items-center p-4">
           {/* Display user email if user is not null */}
           {user && (
-            <>
-              <label>Email:</label>
-              <input type="text" value={userEmail} readOnly />
-            </>
+            <div className="m-10 flex flex-col items-center">
+              <label className="text-m font-bold mb-2 mr-5">Email:</label>
+              <input
+                className="text-center h-[2rem] lg:h-[2.5rem] rounded-md border-accent bg-white text-txtcolor-secondary shadow-sm ring-1 ring-inset ring-white/10 focus:ring-text pl-[5px]"
+                type="text"
+                value={userEmail}
+                placeholder=" Insert yor password"
+                readOnly
+              />
+            </div>
           )}
 
           {/* Change password section */}
           {isChangePasswordClicked && (
             <>
-              <label>New Password:</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-
-              <label>Confirm Password:</label>
-              <input
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-
+              <div className="flex flex-col justify-center items-start p-4">
+                <label className="text-m font-bold mr-5">New Password:</label>
+                <input
+                  className="w-80 h-[2rem] lg:h-[2.5rem] rounded-md border-accent bg-white text-txtcolor-secondary shadow-sm ring-1 ring-inset ring-white/10 focus:ring-text pl-[5px] my-3"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+              <div className="flex flex-col justify-center items-start p-4">
+                <label className="text-m font-bold mr-5">
+                  Confirm Password:
+                </label>
+                <input
+                  className="w-80 h-[2rem] lg:h-[2.5rem] rounded-md border-accent bg-white text-txtcolor-secondary shadow-sm ring-1 ring-inset ring-white/10 focus:ring-text pl-[5px] my-3"
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+              </div>
               {/* Button to trigger password change */}
               <button
-                className="bg-accent text-background rounded-full px-4 py-2 ml-2"
+                className="p-[10px] mt-5 bg-accent text-background shadow-md shadow-text"
                 onClick={changePassword}
               >
                 Change Password
@@ -117,7 +125,7 @@ export const ProfilePage = () => {
           {/* Button to toggle change password section visibility */}
           {!isChangePasswordClicked && (
             <button
-              className="bg-accent text-background rounded-full px-4 py-2 ml-2"
+              className="p-[10px] bg-accent text-background shadow-md shadow-text"
               onClick={() => setIsChangePasswordClicked(true)}
             >
               Change Password

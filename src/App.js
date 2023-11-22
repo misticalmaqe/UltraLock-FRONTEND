@@ -1,20 +1,20 @@
-import React from "react";
-import { Route, Routes } from "react-router-dom";
-import UserProvider from "./provider/UserProvider";
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
+import UserProvider from './provider/UserProvider';
 
-// Import your components...
-import { PwGenPage } from "./Pages/PwGenPage";
-import { PwBookPage } from "./Pages/PwBookPage";
-import { PwBookPersonalPage } from "./Pages/PwBookPersonalPage";
-import { PwBookSharedPage } from "./Pages/PwBookSharedPage";
-import { ProfilePage } from "./Pages/ProfilePage";
-import { OnboardingPage } from "./Pages/OnboardingPage";
-import { ForgotPwPage } from "./Pages/ForgotPwPage";
-import { SignUpPage } from "./Pages/SignUpPage";
-import { ErrorPage } from "./Pages/ErrorPage";
+//--------------COMPONENTS--------------//
+import { PwGenPage } from './Pages/PwGenPage';
+import { PwBookPage } from './Pages/PwBookPage';
+import { PwBookPersonalPage } from './Pages/PwBookPersonalPage';
+import { PwBookSharedPage } from './Pages/PwBookSharedPage';
+import { ProfilePage } from './Pages/ProfilePage';
+import { OnboardingPage } from './Pages/OnboardingPage';
+import { ForgotPwPage } from './Pages/ForgotPwPage';
+import { SignUpPage } from './Pages/SignUpPage';
+import { ErrorPage } from './Pages/ErrorPage';
 
 //--------------STYLING--------------//
-import "./App.css";
+import './App.css';
 
 // App component
 export default function App() {
